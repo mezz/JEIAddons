@@ -1,4 +1,4 @@
-package mezz.jeiaddons;
+package mezz.jeiaddons.utils;
 
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;

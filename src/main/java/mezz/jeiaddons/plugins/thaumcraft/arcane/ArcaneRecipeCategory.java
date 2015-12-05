@@ -14,8 +14,8 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.util.Log;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
+import mezz.jeiaddons.utils.Log;
 
 public class ArcaneRecipeCategory implements IRecipeCategory {
 	private static final int craftOutputSlot = 0;

@@ -6,7 +6,7 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIManager;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
-import mezz.jeiaddons.ModUtil;
+import mezz.jeiaddons.utils.ModUtil;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapedArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapelessArcaneRecipeHandler;
