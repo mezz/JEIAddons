@@ -27,6 +27,8 @@ minecraft {
     // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = "snapshot_20141130"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+	useDepAts = true
 }
 
 repositories {
@@ -57,21 +59,12 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-
-	// Move access transformers to META-INF
-	rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 // prevent java 8's strict doclint for javadocs from failing builds
 allprojects {
 	tasks.withType(Javadoc) {
 		options.addStringOption('Xdoclint:none', '-quiet')
-	}
-}
-
-jar {
-	manifest {
-		attributes 'FMLAT': 'jei_at.cfg'
 	}
 }
 
