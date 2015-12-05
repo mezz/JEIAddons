@@ -1,0 +1,16 @@
+[
+{
+  "modid": "JEIAddons",
+  "name": "Just Enough Items Addons",
+  "description": "Mod addons for JEI.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/mezz/JEIAddons",
+  "updateUrl": "",
+  "authorList": ["mezz"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["JustEnoughItems"]
+}
+]
