@@ -9,11 +9,12 @@ import mezz.jeiaddons.utils.ModUtil;
 
 @JEIPlugin
 public class PluginThaumcraft implements IModPlugin {
+	public static final String modId = "Thaumcraft";
 	public static ThaumcraftHelper helper;
 
 	@Override
 	public boolean isModLoaded() {
-		return ModUtil.isModLoaded("Thaumcraft");
+		return ModUtil.isModLoaded(modId);
 	}
 
 	@Override

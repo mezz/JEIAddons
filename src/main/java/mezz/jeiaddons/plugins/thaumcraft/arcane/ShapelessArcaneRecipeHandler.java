@@ -3,6 +3,7 @@ package mezz.jeiaddons.plugins.thaumcraft.arcane;
 import javax.annotation.Nonnull;
 
 import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import thaumcraft.api.crafting.ShapelessArcaneRecipe;
 
@@ -15,13 +16,7 @@ public class ShapelessArcaneRecipeHandler extends ArcaneRecipeHandler<ShapelessA
 
 	@Nonnull
 	@Override
-	public String getRecipeCategoryUid() {
-		return ThaumcraftRecipeUids.ARCANE;
-	}
-
-	@Nonnull
-	@Override
-	public IRecipeWrapper getRecipeWrapper(@Nonnull ShapelessArcaneRecipe recipe) {
+	public IResearchableRecipeWrapper getRecipeWrapper(@Nonnull ShapelessArcaneRecipe recipe) {
 		return new ShapelessArcaneRecipeWrapper(recipe);
 	}
 

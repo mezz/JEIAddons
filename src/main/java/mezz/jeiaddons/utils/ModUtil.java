@@ -37,6 +37,16 @@ public class ModUtil {
 	}
 
 	@Nullable
+	public static Class getClassForName(String className) {
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			Log.error("Couldn't find class for {}", className);
+			return null;
+		}
+	}
+
+	@Nullable
 	public static Class<? extends Container> getContainerClassForName(String className) {
 		try {
 			return Class.forName(className).asSubclass(Container.class);

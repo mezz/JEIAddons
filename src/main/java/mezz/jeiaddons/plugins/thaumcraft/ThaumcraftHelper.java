@@ -4,9 +4,12 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -18,10 +21,14 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.gui.RecipesGuiInitEvent;
 import mezz.jeiaddons.config.Config;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
+import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeCategory;
+import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeHandler;
+import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapedArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapelessArcaneRecipeHandler;
 import mezz.jeiaddons.utils.Log;
 import mezz.jeiaddons.utils.ModUtil;
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.api.research.ResearchHelper;
 
@@ -31,7 +38,7 @@ import thaumcraft.api.research.ResearchHelper;
  */
 public class ThaumcraftHelper {
 	private static final String researchSound = "thaumcraft:learn";
-	private final List<IArcaneRecipe> unresearchedRecipes = new ArrayList<>();
+	private final List<IResearchableRecipeWrapper> unresearchedRecipes = new ArrayList<>();
 	private boolean addedInitialRecipes = false;
 
 	/**
@@ -62,12 +69,14 @@ public class ThaumcraftHelper {
 
 	private boolean addResearchedRecipes() {
 		boolean added = false;
-		Iterator<IArcaneRecipe> iterator = unresearchedRecipes.iterator();
+		Iterator<IResearchableRecipeWrapper> iterator = unresearchedRecipes.iterator();
 		while (iterator.hasNext()) {
-			IArcaneRecipe recipe = iterator.next();
-			if (isResearched(recipe)) {
-				JEIManager.recipeRegistry.addRecipe(recipe);
-				JEIManager.itemBlacklist.removeItemFromBlacklist(recipe.getRecipeOutput());
+			IResearchableRecipeWrapper recipeWrapper = iterator.next();
+			if (recipeWrapper.isResearched()) {
+				JEIManager.recipeRegistry.addRecipe(recipeWrapper.getRecipe());
+				for	(ItemStack output : recipeWrapper.getOutputs()) {
+					JEIManager.itemBlacklist.removeItemFromBlacklist(output);
+				}
 				iterator.remove();
 				added = true;
 			}
@@ -79,14 +88,21 @@ public class ThaumcraftHelper {
 		if (!Config.thaumcraftRequireResearch) {
 			return true;
 		}
-		// Minecraft.thePlayer does not exist when JEI loads.
-		String playerName = Minecraft.getMinecraft().getSession().getUsername();
-		return ResearchHelper.isResearchComplete(playerName, recipe.getResearch());
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		return player != null && ResearchHelper.isResearchComplete(player.getName(), recipe.getResearch());
 	}
 
-	public void addUnresearchedRecipe(IArcaneRecipe recipe) {
+	public void addUnresearchedRecipe(IResearchableRecipeWrapper recipe) {
 		unresearchedRecipes.add(recipe);
-		JEIManager.itemBlacklist.addItemToBlacklist(recipe.getRecipeOutput());
+		for	(ItemStack output : recipe.getOutputs()) {
+			JEIManager.itemBlacklist.addItemToBlacklist(output);
+		}
+	}
+
+	public void preInit() {
+		Set<String> aspectTags = Aspect.aspects.keySet();
+		String[] aspectTagsArray = aspectTags.toArray(new String[aspectTags.size()]);
+		JEIManager.nbtIgnoreList.ignoreNbtTagNames(aspectTagsArray);
 	}
 
 	public void register(IModRegistry registry) {
@@ -105,8 +121,17 @@ public class ThaumcraftHelper {
 		if (arcaneWorkbenchClass != null) {
 			registry.addRecipeTransferHelpers(
 					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, ThaumcraftRecipeUids.ARCANE, 2, 9, 11, 36),
+					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, ThaumcraftRecipeUids.WAND, 2, 9, 11, 36),
 					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, VanillaRecipeCategoryUid.CRAFTING, 2, 9, 11, 36)
 			);
+		}
+
+		Class arcaneWandRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneWandRecipe");
+		if (arcaneWandRecipeClass != null) {
+			registry.addRecipeCategories(new ArcaneWandRecipeCategory());
+			registry.addIgnoredRecipeClasses(arcaneWandRecipeClass);
+			registry.addRecipeHandlers(new ArcaneWandRecipeHandler());
+			registry.addRecipes(ArcaneWandRecipeMaker.getRecipes());
 		}
 	}
 }

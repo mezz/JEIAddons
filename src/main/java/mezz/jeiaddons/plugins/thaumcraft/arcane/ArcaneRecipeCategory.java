@@ -14,6 +14,8 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.wrapper.ICraftingRecipeWrapper;
+import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import mezz.jeiaddons.utils.Log;
 
@@ -84,12 +86,12 @@ public class ArcaneRecipeCategory implements IRecipeCategory {
 	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
-		if (recipeWrapper instanceof ShapedArcaneRecipeWrapper) {
-			ShapedArcaneRecipeWrapper wrapper = (ShapedArcaneRecipeWrapper) recipeWrapper;
+		if (recipeWrapper instanceof IShapedCraftingRecipeWrapper) {
+			IShapedCraftingRecipeWrapper wrapper = (IShapedCraftingRecipeWrapper) recipeWrapper;
 			craftingGridHelper.setInput(guiItemStacks, wrapper.getInputs(), wrapper.getWidth(), wrapper.getHeight());
 			craftingGridHelper.setOutput(guiItemStacks, wrapper.getOutputs());
-		} else if (recipeWrapper instanceof ShapelessArcaneRecipeWrapper) {
-			ShapelessArcaneRecipeWrapper wrapper = (ShapelessArcaneRecipeWrapper) recipeWrapper;
+		} else if (recipeWrapper instanceof ICraftingRecipeWrapper) {
+			ICraftingRecipeWrapper wrapper = (ICraftingRecipeWrapper) recipeWrapper;
 			craftingGridHelper.setInput(guiItemStacks, wrapper.getInputs());
 			craftingGridHelper.setOutput(guiItemStacks, wrapper.getOutputs());
 		} else {
