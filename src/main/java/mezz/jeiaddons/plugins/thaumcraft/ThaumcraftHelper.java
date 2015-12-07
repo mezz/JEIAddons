@@ -21,12 +21,12 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.gui.RecipesGuiInitEvent;
 import mezz.jeiaddons.config.Config;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
-import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeCategory;
+import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneScepterRecipeMaker;
+import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneSceptreRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapedArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapelessArcaneRecipeHandler;
-import mezz.jeiaddons.utils.Log;
 import mezz.jeiaddons.utils.ModUtil;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.crafting.IArcaneRecipe;
@@ -121,17 +121,22 @@ public class ThaumcraftHelper {
 		if (arcaneWorkbenchClass != null) {
 			registry.addRecipeTransferHelpers(
 					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, ThaumcraftRecipeUids.ARCANE, 2, 9, 11, 36),
-					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, ThaumcraftRecipeUids.WAND, 2, 9, 11, 36),
 					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, VanillaRecipeCategoryUid.CRAFTING, 2, 9, 11, 36)
 			);
 		}
 
 		Class arcaneWandRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneWandRecipe");
 		if (arcaneWandRecipeClass != null) {
-			registry.addRecipeCategories(new ArcaneWandRecipeCategory());
 			registry.addIgnoredRecipeClasses(arcaneWandRecipeClass);
 			registry.addRecipeHandlers(new ArcaneWandRecipeHandler());
 			registry.addRecipes(ArcaneWandRecipeMaker.getRecipes());
+		}
+
+		Class arcaneScepterRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneSceptreRecipe");
+		if (arcaneScepterRecipeClass != null) {
+			registry.addIgnoredRecipeClasses(arcaneScepterRecipeClass);
+			registry.addRecipeHandlers(new ArcaneSceptreRecipeHandler());
+			registry.addRecipes(ArcaneScepterRecipeMaker.getRecipes());
 		}
 	}
 }

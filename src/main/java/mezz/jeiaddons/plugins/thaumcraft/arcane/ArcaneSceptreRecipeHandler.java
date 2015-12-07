@@ -7,12 +7,12 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 
-public class ArcaneWandRecipeHandler implements IRecipeHandler<ArcaneWandRecipeWrapper> {
+public class ArcaneSceptreRecipeHandler implements IRecipeHandler<ArcaneSceptreRecipeWrapper> {
 
 	@Nonnull
 	@Override
-	public Class<ArcaneWandRecipeWrapper> getRecipeClass() {
-		return ArcaneWandRecipeWrapper.class;
+	public Class<ArcaneSceptreRecipeWrapper> getRecipeClass() {
+		return ArcaneSceptreRecipeWrapper.class;
 	}
 
 	@Nonnull
@@ -23,12 +23,12 @@ public class ArcaneWandRecipeHandler implements IRecipeHandler<ArcaneWandRecipeW
 
 	@Nonnull
 	@Override
-	public IRecipeWrapper getRecipeWrapper(@Nonnull ArcaneWandRecipeWrapper recipe) {
+	public IRecipeWrapper getRecipeWrapper(@Nonnull ArcaneSceptreRecipeWrapper recipe) {
 		return recipe;
 	}
 
 	@Override
-	public boolean isRecipeValid(@Nonnull ArcaneWandRecipeWrapper recipe) {
+	public boolean isRecipeValid(@Nonnull ArcaneSceptreRecipeWrapper recipe) {
 		if (!recipe.isResearched()) {
 			PluginThaumcraft.helper.addUnresearchedRecipe(recipe);
 			return false;
