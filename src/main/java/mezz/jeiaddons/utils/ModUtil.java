@@ -1,5 +1,9 @@
 package mezz.jeiaddons.utils;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.inventory.Container;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.versioning.ArtifactVersion;
@@ -30,5 +34,15 @@ public class ModUtil {
 		}
 
 		return true;
+	}
+
+	@Nullable
+	public static Class<? extends Container> getContainerClassForName(String className) {
+		try {
+			return Class.forName(className).asSubclass(Container.class);
+		} catch (ClassNotFoundException | ClassCastException e) {
+			Log.error("Couldn't find class for {}", className);
+			return null;
+		}
 	}
 }

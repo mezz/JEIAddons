@@ -2,12 +2,11 @@ package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
 import javax.annotation.Nonnull;
 
-import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
-public class ShapedArcaneRecipeHandler implements IRecipeHandler<ShapedArcaneRecipe> {
+public class ShapedArcaneRecipeHandler extends ArcaneRecipeHandler<ShapedArcaneRecipe> {
 	@Nonnull
 	@Override
 	public Class<ShapedArcaneRecipe> getRecipeClass() {
@@ -28,9 +27,10 @@ public class ShapedArcaneRecipeHandler implements IRecipeHandler<ShapedArcaneRec
 
 	@Override
 	public boolean isRecipeValid(@Nonnull ShapedArcaneRecipe recipe) {
-		if (recipe.getRecipeOutput() == null) {
+		if (!super.isRecipeValid(recipe)) {
 			return false;
 		}
+
 		int inputCount = 0;
 		for (Object input : recipe.input) {
 			if (input != null) {

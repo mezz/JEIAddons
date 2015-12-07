@@ -2,12 +2,11 @@ package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
 import javax.annotation.Nonnull;
 
-import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import thaumcraft.api.crafting.ShapelessArcaneRecipe;
 
-public class ShapelessArcaneRecipeHandler implements IRecipeHandler<ShapelessArcaneRecipe> {
+public class ShapelessArcaneRecipeHandler extends ArcaneRecipeHandler<ShapelessArcaneRecipe> {
 	@Nonnull
 	@Override
 	public Class<ShapelessArcaneRecipe> getRecipeClass() {
@@ -28,9 +27,10 @@ public class ShapelessArcaneRecipeHandler implements IRecipeHandler<ShapelessArc
 
 	@Override
 	public boolean isRecipeValid(@Nonnull ShapelessArcaneRecipe recipe) {
-		if (recipe.getRecipeOutput() == null) {
+		if (!super.isRecipeValid(recipe)) {
 			return false;
 		}
+
 		int inputCount = 0;
 		for (Object input : recipe.getInput()) {
 			if (input != null) {
