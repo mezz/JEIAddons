@@ -35,10 +35,15 @@ repositories {
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
 	}
+	ivy {
+		name "Thaumcraft"
+		artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[module]-deobf-${mcversion}-[revision].[ext]"
+	}
 }
 
 dependencies {
-	deobfCompile "mezz.jei:jei_${mcversion}:${jeiversion}"
+	deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}"
+	deobfCompile name: 'Thaumcraft', version: "${thaumcraft_version}", ext: 'jar'
 }
 
 processResources
