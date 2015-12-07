@@ -1,6 +1,7 @@
 package mezz.jeiaddons.plugins.thaumcraft;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +30,9 @@ import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapedArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapelessArcaneRecipeHandler;
 import mezz.jeiaddons.utils.ModUtil;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.crafting.IArcaneRecipe;
+import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchHelper;
+import thaumcraft.client.lib.UtilsFX;
 
 /**
  * When IRecipeHandler.isRecipeValid is called, Thaumcraft hasn't synced the research to client yet.
@@ -84,12 +86,12 @@ public class ThaumcraftHelper {
 		return added;
 	}
 
-	public boolean isResearched(IArcaneRecipe recipe) {
-		if (!Config.thaumcraftRequireResearch) {
+	public boolean isResearched(String[] research) {
+		if (!Config.thaumcraftRequireResearch || research == null || research[0].length() <= 0) {
 			return true;
 		}
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		return player != null && ResearchHelper.isResearchComplete(player.getName(), recipe.getResearch());
+		return player != null && ResearchHelper.isResearchComplete(player.getName(), research);
 	}
 
 	public void addUnresearchedRecipe(IResearchableRecipeWrapper recipe) {
@@ -137,6 +139,21 @@ public class ThaumcraftHelper {
 			registry.addIgnoredRecipeClasses(arcaneScepterRecipeClass);
 			registry.addRecipeHandlers(new ArcaneSceptreRecipeHandler());
 			registry.addRecipes(ArcaneScepterRecipeMaker.getRecipes());
+		}
+	}
+
+	public void drawAspects(@Nullable AspectList aspectList, int recipeWidth, int y) {
+		if (aspectList == null || aspectList.size() == 0) {
+			return;
+		}
+
+		int aspectsWidth = 18 * aspectList.size();
+		int aspectXStart = (recipeWidth - aspectsWidth) / 2;
+
+		int count = 0;
+		for (Aspect tag : aspectList.getAspectsSortedByAmount()) {
+			UtilsFX.drawTag(aspectXStart + 18 * count, y, tag, aspectList.getAmount(tag), 0, 0.0D, 771, 1.0F);
+			count++;
 		}
 	}
 }

@@ -12,10 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 import mezz.jei.api.recipe.wrapper.ICraftingRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.IArcaneRecipe;
-import thaumcraft.client.lib.UtilsFX;
 
 public abstract class ArcaneRecipeWrapper<T extends IArcaneRecipe> implements ICraftingRecipeWrapper, IResearchableRecipeWrapper {
 	protected final T recipe;
@@ -40,23 +37,13 @@ public abstract class ArcaneRecipeWrapper<T extends IArcaneRecipe> implements IC
 	}
 
 	@Override
-	public void drawInfo(@Nonnull Minecraft minecraft) {
-		int count = 0;
-		AspectList tags = recipe.getAspects();
-		for (Aspect tag : tags.getAspectsSortedByAmount()) {
-			UtilsFX.drawTag(14 + 18 * count + (5 - tags.size()) * 8, 60, tag, tags.getAmount(tag), 0, 0.0D, 771, 1.0F);
-			count++;
-		}
-	}
-
-	@Override
-	public boolean usesOreDictionaryComparison() {
-		return false;
+	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
+		PluginThaumcraft.helper.drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - 18);
 	}
 
 	@Override
 	public boolean isResearched() {
-		return PluginThaumcraft.helper.isResearched(recipe);
+		return PluginThaumcraft.helper.isResearched(recipe.getResearch());
 	}
 
 	@Override
