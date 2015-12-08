@@ -169,12 +169,12 @@ public class ThaumcraftHelper {
 			return;
 		}
 
-		int aspectsWidth = 18 * aspectList.size();
+		int aspectsWidth = 22 * aspectList.size();
 		int aspectXStart = (recipeWidth - aspectsWidth) / 2;
 
 		int count = 0;
 		for (Aspect tag : aspectList.getAspectsSortedByAmount()) {
-			UtilsFX.drawTag(aspectXStart + 18 * count, y, tag, aspectList.getAmount(tag), 0, 0.0D, 771, 1.0F);
+			UtilsFX.drawTag(aspectXStart + 22 * count, y, tag, aspectList.getAmount(tag), 0, 0.0D, 771, 1.0F);
 			count++;
 		}
 	}
