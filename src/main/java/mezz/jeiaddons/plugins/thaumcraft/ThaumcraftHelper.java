@@ -28,6 +28,9 @@ import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapedArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapelessArcaneRecipeHandler;
+import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeCategory;
+import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeHandler;
+import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeMaker;
 import mezz.jeiaddons.utils.ModUtil;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -109,12 +112,18 @@ public class ThaumcraftHelper {
 
 	public void register(IModRegistry registry) {
 		registry.addRecipeCategories(
-				new ArcaneRecipeCategory()
+				new ArcaneRecipeCategory(),
+				new InfusionRecipeCategory()
 		);
 
 		registry.addRecipeHandlers(
 				new ShapedArcaneRecipeHandler(),
-				new ShapelessArcaneRecipeHandler()
+				new ShapelessArcaneRecipeHandler(),
+				new InfusionRecipeHandler()
+		);
+
+		registry.addRecipes(
+				InfusionRecipeMaker.getRecipes()
 		);
 
 		IGuiHelper guiHelper = JEIManager.guiHelper;

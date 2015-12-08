@@ -1,0 +1,127 @@
+package mezz.jeiaddons.plugins.thaumcraft.infusion;
+
+import javax.annotation.Nonnull;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.util.StatCollector;
+
+import net.minecraftforge.fluids.FluidStack;
+
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.util.StackUtil;
+import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.utils.Log;
+import thaumcraft.api.crafting.InfusionRecipe;
+
+public class InfusionRecipeWrapper implements IRecipeWrapper, IResearchableRecipeWrapper {
+	private final InfusionRecipe recipe;
+	private final List<Object> inputs;
+	private final List<ItemStack> outputs;
+	private final List<ItemStack> recipeInput;
+	private final List<List<ItemStack>> components;
+	private final String instabilityString;
+
+	public InfusionRecipeWrapper(InfusionRecipe recipe) {
+		this.recipe = recipe;
+
+		this.recipeInput = StackUtil.toItemStackList(recipe.getRecipeInput());
+		this.inputs = new ArrayList<>();
+		this.inputs.add(this.recipeInput);
+
+		this.components = new ArrayList<>();
+		Object[] recipeComponents = recipe.getComponents();
+		if (recipeComponents != null) {
+			Collections.addAll(this.inputs, recipeComponents);
+
+			for (Object component : recipeComponents) {
+				List<ItemStack> componentList = StackUtil.toItemStackList(component);
+				this.components.add(componentList);
+			}
+		}
+
+		Object recipeOutput = recipe.getRecipeOutput();
+		if (recipeOutput instanceof ItemStack) {
+			this.outputs = StackUtil.toItemStackList(recipeOutput);
+		} else {
+			this.outputs = StackUtil.toItemStackList(recipe.getRecipeInput());
+			Object[] obj = (Object[])recipeOutput;
+			NBTBase tag = (NBTBase)obj[1];
+			for (ItemStack outputStack : this.outputs) {
+				outputStack.setTagInfo((String) obj[0], tag);
+			}
+		}
+
+		ArrayList<ItemStack> recipeComponentFirstStacks = new ArrayList<>();
+		for (List<ItemStack> componentList : components) {
+			recipeComponentFirstStacks.add(componentList.get(0));
+		}
+
+		Integer instabilityValue = null;
+		try {
+			instabilityValue = recipe.getInstability(null, recipeInput.get(0), recipeComponentFirstStacks);
+		} catch (Throwable e) {
+			Log.error("Failed to get instability for infusion recipe for {}", recipe.getRecipeOutput());
+		}
+
+		if (instabilityValue != null) {
+			int instabilityKey = Math.min(5, instabilityValue / 2);
+			this.instabilityString = StatCollector.translateToLocal("tc.inst") + " " + StatCollector.translateToLocal("tc.inst." + instabilityKey);
+		} else {
+			this.instabilityString = "";
+		}
+	}
+
+	@Override
+	public List getInputs() {
+		return inputs;
+	}
+
+	@Override
+	public List<ItemStack> getOutputs() {
+		return outputs;
+	}
+
+	@Override
+	public List<FluidStack> getFluidInputs() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<FluidStack> getFluidOutputs() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
+		int textHeight = minecraft.fontRendererObj.FONT_HEIGHT;
+		PluginThaumcraft.helper.drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - textHeight - 18 - 4);
+
+		int xPos = (recipeWidth - minecraft.fontRendererObj.getStringWidth(instabilityString)) / 2;
+		minecraft.fontRendererObj.drawString(instabilityString, xPos, recipeHeight - textHeight, Color.gray.getRGB());
+	}
+
+	@Override
+	public Object getRecipe() {
+		return this;
+	}
+
+	@Override
+	public boolean isResearched() {
+		return PluginThaumcraft.helper.isResearched(recipe.getResearch());
+	}
+
+	public List<ItemStack> getRecipeInput() {
+		return recipeInput;
+	}
+
+	public List<List<ItemStack>> getComponents() {
+		return components;
+	}
+}

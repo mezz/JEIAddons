@@ -39,7 +39,7 @@ public class ArcaneRecipeCategory implements IRecipeCategory {
 		ResourceLocation wandLocation = new ResourceLocation("thaumcraft", "textures/gui/gui_researchbook_overlay.png");
 		wand = JEIManager.guiHelper.createDrawable(wandLocation, 65, 75, 15, 15);
 
-		localizedName = StatCollector.translateToLocal("gui.jeiaddons.arcaneWorkbenchRecipes");
+		localizedName = StatCollector.translateToLocal("recipe.type.arcane");
 		craftingGridHelper = JEIManager.guiHelper.createCraftingGridHelper(craftInputSlot1, craftOutputSlot);
 	}
 

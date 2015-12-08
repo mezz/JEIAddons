@@ -1,6 +1,3 @@
-# Recipes
-gui.jeiaddons.arcaneWorkbenchRecipes=Arcane Crafting
-
 # Config
 config.jeiAddons.thaumcraft.requireResearch=Require Thaumcraft Research
 config.jeiAddons.thaumcraft.requireResearch.description=Hide Thaumcraft items and recipes that haven't been researched.
