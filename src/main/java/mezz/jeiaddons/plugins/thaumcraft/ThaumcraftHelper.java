@@ -10,7 +10,6 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
@@ -81,12 +80,7 @@ public class ThaumcraftHelper {
 			IResearchableRecipeWrapper recipeWrapper = iterator.next();
 			if (recipeWrapper.isResearched()) {
 				JEIManager.recipeRegistry.addRecipe(recipeWrapper.getRecipe());
-				for	(ItemStack output : recipeWrapper.getOutputs()) {
-					Item item = output.getItem();
-					if (JEIManager.itemRegistry.getModNameForItem(item).equals(PluginThaumcraft.modId)) {
-						JEIManager.itemBlacklist.removeItemFromBlacklist(output);
-					}
-				}
+				removeRecipeOutputsFromBlacklist(recipeWrapper);
 				iterator.remove();
 				added = true;
 			}
@@ -104,11 +98,20 @@ public class ThaumcraftHelper {
 
 	public void addUnresearchedRecipe(IResearchableRecipeWrapper recipe) {
 		unresearchedRecipes.add(recipe);
-		for	(ItemStack output : recipe.getOutputs()) {
-			Item item = output.getItem();
-			if (JEIManager.itemRegistry.getModNameForItem(item).equals(PluginThaumcraft.modId)) {
-				JEIManager.itemBlacklist.addItemToBlacklist(output);
-			}
+		addRecipeOutputsToBlacklist(recipe);
+	}
+
+	private void addRecipeOutputsToBlacklist(IResearchableRecipeWrapper recipe) {
+		List<ItemStack> thaumcraftOutputs = ModUtil.getItemStacksFromMod(recipe.getOutputs(), PluginThaumcraft.modId);
+		for	(ItemStack output : thaumcraftOutputs) {
+			JEIManager.itemBlacklist.addItemToBlacklist(output);
+		}
+	}
+
+	private void removeRecipeOutputsFromBlacklist(IResearchableRecipeWrapper recipe) {
+		List<ItemStack> thaumcraftOutputs = ModUtil.getItemStacksFromMod(recipe.getOutputs(), PluginThaumcraft.modId);
+		for	(ItemStack output : thaumcraftOutputs) {
+			JEIManager.itemBlacklist.removeItemFromBlacklist(output);
 		}
 	}
 
