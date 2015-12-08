@@ -10,6 +10,7 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
@@ -28,9 +29,10 @@ import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneWandRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapedArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapelessArcaneRecipeHandler;
+import mezz.jeiaddons.plugins.thaumcraft.crucible.CrucibleRecipeCategory;
+import mezz.jeiaddons.plugins.thaumcraft.crucible.CrucibleRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeHandler;
-import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeMaker;
 import mezz.jeiaddons.utils.ModUtil;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -80,7 +82,10 @@ public class ThaumcraftHelper {
 			if (recipeWrapper.isResearched()) {
 				JEIManager.recipeRegistry.addRecipe(recipeWrapper.getRecipe());
 				for	(ItemStack output : recipeWrapper.getOutputs()) {
-					JEIManager.itemBlacklist.removeItemFromBlacklist(output);
+					Item item = output.getItem();
+					if (JEIManager.itemRegistry.getModNameForItem(item).equals(PluginThaumcraft.modId)) {
+						JEIManager.itemBlacklist.removeItemFromBlacklist(output);
+					}
 				}
 				iterator.remove();
 				added = true;
@@ -89,7 +94,7 @@ public class ThaumcraftHelper {
 		return added;
 	}
 
-	public boolean isResearched(String[] research) {
+	public boolean isResearched(String... research) {
 		if (!Config.thaumcraftRequireResearch || research == null || research[0].length() <= 0) {
 			return true;
 		}
@@ -100,7 +105,10 @@ public class ThaumcraftHelper {
 	public void addUnresearchedRecipe(IResearchableRecipeWrapper recipe) {
 		unresearchedRecipes.add(recipe);
 		for	(ItemStack output : recipe.getOutputs()) {
-			JEIManager.itemBlacklist.addItemToBlacklist(output);
+			Item item = output.getItem();
+			if (JEIManager.itemRegistry.getModNameForItem(item).equals(PluginThaumcraft.modId)) {
+				JEIManager.itemBlacklist.addItemToBlacklist(output);
+			}
 		}
 	}
 
@@ -113,17 +121,19 @@ public class ThaumcraftHelper {
 	public void register(IModRegistry registry) {
 		registry.addRecipeCategories(
 				new ArcaneRecipeCategory(),
-				new InfusionRecipeCategory()
+				new InfusionRecipeCategory(),
+				new CrucibleRecipeCategory()
 		);
 
 		registry.addRecipeHandlers(
 				new ShapedArcaneRecipeHandler(),
 				new ShapelessArcaneRecipeHandler(),
-				new InfusionRecipeHandler()
+				new InfusionRecipeHandler(),
+				new CrucibleRecipeHandler()
 		);
 
 		registry.addRecipes(
-				InfusionRecipeMaker.getRecipes()
+				ThaumcraftRecipeMaker.getRecipes()
 		);
 
 		IGuiHelper guiHelper = JEIManager.guiHelper;
