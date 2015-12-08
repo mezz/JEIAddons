@@ -3,8 +3,8 @@ plugins {
 }
 
 version = version_major + '.' + version_minor + '.' + version_patch
-group= "mezz.jeiAddons" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "jeiAddons_" + mcversion
+group= "mezz.JEIAddons" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "JEIAddons_" + mcversion
 
 if (System.getenv().BUILD_NUMBER != null) {//adds the build number to the end of the version string if on a build server
 	version += ".${System.getenv().BUILD_NUMBER}"
