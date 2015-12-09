@@ -1,0 +1,9 @@
+# Config
+config.JEIAddons.thaumcraft.requireResearch=Требовать исследования Thaumcraft
+config.JEIAddons.thaumcraft.requireResearch.description=Скрывает предметы и рецепты из Thaumcraft, которые ещё не были исследованы.
+
+# Categories
+JEIAddons.category.thaumcraft.infernal.smelting=Адская выплавка
+
+# Recipes
+JEIAddons.thaumcraft.infernal.bonus=Бонус
