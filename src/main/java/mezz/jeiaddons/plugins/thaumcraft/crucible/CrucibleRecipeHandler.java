@@ -2,12 +2,11 @@ package mezz.jeiaddons.plugins.thaumcraft.crucible;
 
 import javax.annotation.Nonnull;
 
-import mezz.jei.api.recipe.IRecipeHandler;
-import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.ResearchableRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 
-public class CrucibleRecipeHandler implements IRecipeHandler<CrucibleRecipeWrapper> {
+public class CrucibleRecipeHandler extends ResearchableRecipeHandler<CrucibleRecipeWrapper> {
 	@Nonnull
 	@Override
 	public Class<CrucibleRecipeWrapper> getRecipeClass() {
@@ -22,17 +21,12 @@ public class CrucibleRecipeHandler implements IRecipeHandler<CrucibleRecipeWrapp
 
 	@Nonnull
 	@Override
-	public IRecipeWrapper getRecipeWrapper(@Nonnull CrucibleRecipeWrapper recipe) {
+	public IResearchableRecipeWrapper getRecipeWrapper(@Nonnull CrucibleRecipeWrapper recipe) {
 		return recipe;
 	}
 
 	@Override
 	public boolean isRecipeValid(@Nonnull CrucibleRecipeWrapper recipe) {
-		if (!recipe.isResearched()) {
-			PluginThaumcraft.helper.addUnresearchedRecipe(recipe);
-			return false;
-		}
-
-		return recipe.getOutputs() != null && recipe.getOutputs().size() > 0;
+		return super.isRecipeValid(recipe) && recipe.getOutputs() != null && recipe.getOutputs().size() > 0;
 	}
 }

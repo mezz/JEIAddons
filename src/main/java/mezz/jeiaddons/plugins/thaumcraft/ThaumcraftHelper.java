@@ -30,6 +30,9 @@ import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapedArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ShapelessArcaneRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.crucible.CrucibleRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.crucible.CrucibleRecipeHandler;
+import mezz.jeiaddons.plugins.thaumcraft.infernal.InfernalSmeltingRecipeCategory;
+import mezz.jeiaddons.plugins.thaumcraft.infernal.InfernalSmeltingRecipeHandler;
+import mezz.jeiaddons.plugins.thaumcraft.infernal.InfernalSmeltingRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeHandler;
 import mezz.jeiaddons.utils.ModUtil;
@@ -89,7 +92,7 @@ public class ThaumcraftHelper {
 	}
 
 	public boolean isResearched(String... research) {
-		if (!Config.thaumcraftRequireResearch || research == null || research[0].length() <= 0) {
+		if (!Config.thaumcraftRequireResearch || mezz.jei.config.Config.editModeEnabled || research == null || research[0].length() <= 0) {
 			return true;
 		}
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -125,19 +128,20 @@ public class ThaumcraftHelper {
 		registry.addRecipeCategories(
 				new ArcaneRecipeCategory(),
 				new InfusionRecipeCategory(),
-				new CrucibleRecipeCategory()
+				new CrucibleRecipeCategory(),
+				new InfernalSmeltingRecipeCategory()
 		);
 
 		registry.addRecipeHandlers(
 				new ShapedArcaneRecipeHandler(),
 				new ShapelessArcaneRecipeHandler(),
 				new InfusionRecipeHandler(),
-				new CrucibleRecipeHandler()
+				new CrucibleRecipeHandler(),
+				new InfernalSmeltingRecipeHandler()
 		);
 
-		registry.addRecipes(
-				ThaumcraftRecipeMaker.getRecipes()
-		);
+		registry.addRecipes(ThaumcraftRecipeMaker.getRecipes());
+		registry.addRecipes(InfernalSmeltingRecipeMaker.getRecipes());
 
 		IGuiHelper guiHelper = JEIManager.guiHelper;
 

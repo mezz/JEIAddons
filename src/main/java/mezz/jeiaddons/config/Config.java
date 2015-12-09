@@ -21,8 +21,8 @@ public class Config {
 	}
 
 	public static void syncConfig() {
-		String cheatItemsEnabledDescription = StatCollector.translateToLocal("config.jeiAddons.thaumcraft.requireResearch.description");
-		thaumcraftRequireResearch = configFile.getBoolean("requireResearch", categoryThaumcraft, thaumcraftRequireResearch, cheatItemsEnabledDescription, "config.jeiAddons.thaumcraft.requireResearch");
+		String cheatItemsEnabledDescription = StatCollector.translateToLocal("config.JEIAddons.thaumcraft.requireResearch.description");
+		thaumcraftRequireResearch = configFile.getBoolean("requireResearch", categoryThaumcraft, thaumcraftRequireResearch, cheatItemsEnabledDescription, "config.JEIAddons.thaumcraft.requireResearch");
 
 		if (configFile.hasChanged()) {
 			configFile.save();
