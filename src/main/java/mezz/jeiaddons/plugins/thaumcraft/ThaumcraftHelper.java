@@ -19,8 +19,8 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIManager;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import mezz.jei.config.Config;
 import mezz.jei.gui.RecipesGuiInitEvent;
-import mezz.jeiaddons.config.Config;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneScepterRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneSceptreRecipeHandler;
@@ -47,6 +47,7 @@ import thaumcraft.client.lib.UtilsFX;
  */
 public class ThaumcraftHelper {
 	private static final String researchSound = "thaumcraft:learn";
+	private boolean requireResearch = true;
 	private final List<IResearchableRecipeWrapper> unresearchedRecipes = new ArrayList<>();
 	private boolean addedInitialRecipes = false;
 
@@ -92,7 +93,7 @@ public class ThaumcraftHelper {
 	}
 
 	public boolean isResearched(String... research) {
-		if (!Config.thaumcraftRequireResearch || mezz.jei.config.Config.editModeEnabled || research == null || research[0].length() <= 0) {
+		if (!requireResearch || mezz.jei.config.Config.editModeEnabled || research == null || research[0].length() <= 0) {
 			return true;
 		}
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -122,6 +123,12 @@ public class ThaumcraftHelper {
 		Set<String> aspectTags = Aspect.aspects.keySet();
 		String[] aspectTagsArray = aspectTags.toArray(new String[aspectTags.size()]);
 		JEIManager.nbtIgnoreList.ignoreNbtTagNames(aspectTagsArray);
+
+		requireResearch = Config.configFile.getBoolean(Config.categoryAddons, "requireThaumcraftResearch", requireResearch);
+
+		if (Config.configFile.hasChanged()) {
+			Config.configFile.save();
+		}
 	}
 
 	public void register(IModRegistry registry) {

@@ -1,6 +1,6 @@
 # Config
-config.JEIAddons.thaumcraft.requireResearch=Require Thaumcraft Research
-config.JEIAddons.thaumcraft.requireResearch.description=Hide Thaumcraft items and recipes that haven't been researched.
+config.jei.addons.requireThaumcraftResearch=Require Thaumcraft Research
+config.jei.addons.requireThaumcraftResearch.comment=Hide Thaumcraft items and recipes that haven't been researched.
 
 # Categories
 JEIAddons.category.thaumcraft.infernal.smelting=Infernal Smelting

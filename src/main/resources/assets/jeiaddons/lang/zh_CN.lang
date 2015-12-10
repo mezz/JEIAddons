@@ -1,6 +1,6 @@
 # Config
-config.JEIAddons.thaumcraft.requireResearch=前置神秘时代研究
-config.JEIAddons.thaumcraft.requireResearch.description=(于JEI界面中)隐藏未经研究解锁之合成和研究。
+config.jei.addons.requireThaumcraftResearch=前置神秘时代研究
+config.jei.addons.requireThaumcraftResearch.description=(于JEI界面中)隐藏未经研究解锁之合成和研究。
 
 # Categories
 JEIAddons.category.thaumcraft.infernal.smelting=炼狱熔炉
