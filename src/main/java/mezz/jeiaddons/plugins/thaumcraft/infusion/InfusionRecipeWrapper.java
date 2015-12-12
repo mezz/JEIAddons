@@ -51,8 +51,8 @@ public class InfusionRecipeWrapper implements IRecipeWrapper, IResearchableRecip
 			this.outputs = StackUtil.toItemStackList(recipeOutput);
 		} else {
 			this.outputs = StackUtil.toItemStackList(recipe.getRecipeInput());
-			Object[] obj = (Object[])recipeOutput;
-			NBTBase tag = (NBTBase)obj[1];
+			Object[] obj = (Object[]) recipeOutput;
+			NBTBase tag = (NBTBase) obj[1];
 			for (ItemStack outputStack : this.outputs) {
 				outputStack.setTagInfo((String) obj[0], tag);
 			}

@@ -1,9 +1,7 @@
 package mezz.jeiaddons.utils;
 
-import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,6 @@ import net.minecraftforge.fml.common.versioning.VersionParser;
 import net.minecraftforge.fml.common.versioning.VersionRange;
 
 import mezz.jei.api.JEIManager;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
 
 public class ModUtil {
 	public static boolean isModLoaded(String modname) {
@@ -69,7 +66,7 @@ public class ModUtil {
 	@Nonnull
 	public static List<ItemStack> getItemStacksFromMod(Iterable<ItemStack> itemStacks, String modId) {
 		List<ItemStack> itemStacksFromMod = new ArrayList<>();
-		for	(ItemStack itemStack : itemStacks) {
+		for (ItemStack itemStack : itemStacks) {
 			if (itemStack != null) {
 				Item item = itemStack.getItem();
 				if (JEIManager.itemRegistry.getModNameForItem(item).equals(modId)) {

@@ -107,14 +107,14 @@ public class ThaumcraftHelper {
 
 	private void addRecipeOutputsToBlacklist(IResearchableRecipeWrapper recipe) {
 		List<ItemStack> thaumcraftOutputs = ModUtil.getItemStacksFromMod(recipe.getOutputs(), PluginThaumcraft.modId);
-		for	(ItemStack output : thaumcraftOutputs) {
+		for (ItemStack output : thaumcraftOutputs) {
 			JEIManager.itemBlacklist.addItemToBlacklist(output);
 		}
 	}
 
 	private void removeRecipeOutputsFromBlacklist(IResearchableRecipeWrapper recipe) {
 		List<ItemStack> thaumcraftOutputs = ModUtil.getItemStacksFromMod(recipe.getOutputs(), PluginThaumcraft.modId);
-		for	(ItemStack output : thaumcraftOutputs) {
+		for (ItemStack output : thaumcraftOutputs) {
 			JEIManager.itemBlacklist.removeItemFromBlacklist(output);
 		}
 	}

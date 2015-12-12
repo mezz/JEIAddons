@@ -8,6 +8,8 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 
 public interface IResearchableRecipeWrapper extends IRecipeWrapper {
 	boolean isResearched();
+
 	List<ItemStack> getOutputs();
+
 	Object getRecipe();
 }

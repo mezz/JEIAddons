@@ -1,7 +1,6 @@
 package mezz.jeiaddons.plugins.thaumcraft.infusion;
 
 import javax.annotation.Nonnull;
-
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -83,8 +82,8 @@ public class InfusionRecipeCategory implements IRecipeCategory {
 			float pieSlice = 360 / componentCount;
 			float currentRot = -90.0F;
 			for (int componentIndex = 0; componentIndex < componentCount; componentIndex++) {
-				int xPos = (int)(MathHelper.cos(currentRot / 180.0F * 3.141593F) * 40.0F) + 36;
-				int yPos = (int)(MathHelper.sin(currentRot / 180.0F * 3.141593F) * 38.0F) + 34;
+				int xPos = (int) (MathHelper.cos(currentRot / 180.0F * 3.141593F) * 40.0F) + 36;
+				int yPos = (int) (MathHelper.sin(currentRot / 180.0F * 3.141593F) * 38.0F) + 34;
 				currentRot += pieSlice;
 				guiItemStacks.init(recipeComponentStart + componentIndex, true, xPos, yPos);
 			}
