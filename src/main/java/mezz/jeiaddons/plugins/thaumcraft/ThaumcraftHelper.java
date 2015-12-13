@@ -13,12 +13,14 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIManager;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.config.Config;
+import mezz.jei.config.Constants;
 import mezz.jei.gui.RecipesGuiInitEvent;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneScepterRecipeMaker;
@@ -77,6 +79,18 @@ public class ThaumcraftHelper {
 		}
 	}
 
+	@SubscribeEvent
+	public void onConfigChange(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
+		if (Constants.MOD_ID.equals(event.modID)) {
+			requireResearch = Config.configFile.getBoolean(Config.categoryAddons, configRequireResearchId, requireResearch);
+
+			List<ItemStack> thaumcraftItems = JEIManager.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
+			for (ItemStack itemStack : thaumcraftItems) {
+				JEIManager.itemBlacklist.removeItemFromBlacklist(itemStack);
+			}
+		}
+	}
+
 	private boolean addResearchedRecipes() {
 		boolean added = false;
 		Iterator<IResearchableRecipeWrapper> iterator = unresearchedRecipes.iterator();
@@ -123,8 +137,6 @@ public class ThaumcraftHelper {
 		Set<String> aspectTags = Aspect.aspects.keySet();
 		String[] aspectTagsArray = aspectTags.toArray(new String[aspectTags.size()]);
 		JEIManager.nbtIgnoreList.ignoreNbtTagNames(aspectTagsArray);
-
-		loadConfig();
 	}
 
 	public void loadConfig() {
