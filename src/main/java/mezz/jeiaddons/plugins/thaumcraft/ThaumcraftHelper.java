@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIManager;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
@@ -46,6 +45,7 @@ import thaumcraft.client.lib.UtilsFX;
  * We collect the recipes with ThaumcraftHelper and add them to JEI when they have been researched.
  */
 public class ThaumcraftHelper {
+	private static final String configRequireResearchId = "requireThaumcraftResearch";
 	private static final String researchSound = "thaumcraft:learn";
 	private boolean requireResearch = true;
 	private final List<IResearchableRecipeWrapper> unresearchedRecipes = new ArrayList<>();
@@ -93,7 +93,7 @@ public class ThaumcraftHelper {
 	}
 
 	public boolean isResearched(String... research) {
-		if (!requireResearch || mezz.jei.config.Config.editModeEnabled || research == null || research[0].length() <= 0) {
+		if (!requireResearch || research == null || research[0].length() <= 0) {
 			return true;
 		}
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -124,7 +124,11 @@ public class ThaumcraftHelper {
 		String[] aspectTagsArray = aspectTags.toArray(new String[aspectTags.size()]);
 		JEIManager.nbtIgnoreList.ignoreNbtTagNames(aspectTagsArray);
 
-		requireResearch = Config.configFile.getBoolean(Config.categoryAddons, "requireThaumcraftResearch", requireResearch);
+		loadConfig();
+	}
+
+	public void loadConfig() {
+		requireResearch = Config.configFile.getBoolean(Config.categoryAddons, configRequireResearchId, requireResearch);
 
 		if (Config.configFile.hasChanged()) {
 			Config.configFile.save();
@@ -132,6 +136,8 @@ public class ThaumcraftHelper {
 	}
 
 	public void register(IModRegistry registry) {
+		loadConfig();
+
 		registry.addRecipeCategories(
 				new ArcaneRecipeCategory(),
 				new InfusionRecipeCategory(),
@@ -150,14 +156,10 @@ public class ThaumcraftHelper {
 		registry.addRecipes(ThaumcraftRecipeMaker.getRecipes());
 		registry.addRecipes(InfernalSmeltingRecipeMaker.getRecipes());
 
-		IGuiHelper guiHelper = JEIManager.guiHelper;
-
 		Class<? extends Container> arcaneWorkbenchClass = ModUtil.getContainerClassForName("thaumcraft.common.container.ContainerArcaneWorkbench");
 		if (arcaneWorkbenchClass != null) {
-			registry.addRecipeTransferHelpers(
-					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, ThaumcraftRecipeUids.ARCANE, 2, 9, 11, 36),
-					guiHelper.createRecipeTransferHelper(arcaneWorkbenchClass, VanillaRecipeCategoryUid.CRAFTING, 2, 9, 11, 36)
-			);
+			registry.addBasicRecipeTransferHelper(arcaneWorkbenchClass, ThaumcraftRecipeUids.ARCANE, 2, 9, 11, 36);
+			registry.addBasicRecipeTransferHelper(arcaneWorkbenchClass, VanillaRecipeCategoryUid.CRAFTING, 2, 9, 11, 36);
 		}
 
 		Class arcaneWandRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneWandRecipe");

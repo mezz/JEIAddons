@@ -7,15 +7,13 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
-import net.minecraftforge.fluids.FluidStack;
-
-import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.util.StackUtil;
 import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
 import thaumcraft.api.crafting.CrucibleRecipe;
 
-public class CrucibleRecipeWrapper implements IRecipeWrapper, IResearchableRecipeWrapper {
+public class CrucibleRecipeWrapper extends BlankRecipeWrapper implements IResearchableRecipeWrapper {
 	private final CrucibleRecipe recipe;
 	private final List<ItemStack> catalyst;
 
@@ -42,16 +40,6 @@ public class CrucibleRecipeWrapper implements IRecipeWrapper, IResearchableRecip
 	@Override
 	public Object getRecipe() {
 		return this;
-	}
-
-	@Override
-	public List<FluidStack> getFluidInputs() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<FluidStack> getFluidOutputs() {
-		return Collections.emptyList();
 	}
 
 	@Override

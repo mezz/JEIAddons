@@ -72,6 +72,11 @@ public class ArcaneSceptreRecipeWrapper implements IShapedCraftingRecipeWrapper,
 		PluginThaumcraft.helper.drawAspects(aspectList, recipeWidth, recipeHeight - 18);
 	}
 
+	@Override
+	public void drawAnimations(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
+
+	}
+
 	public boolean isResearched() {
 		Minecraft minecraft = Minecraft.getMinecraft();
 		return minecraft.thePlayer != null && recipe.matches(crafting, minecraft.theWorld, minecraft.thePlayer);

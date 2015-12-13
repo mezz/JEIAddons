@@ -11,16 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.StatCollector;
 
-import net.minecraftforge.fluids.FluidStack;
-
-import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.util.StackUtil;
 import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
 import mezz.jeiaddons.utils.Log;
 import thaumcraft.api.crafting.InfusionRecipe;
 
-public class InfusionRecipeWrapper implements IRecipeWrapper, IResearchableRecipeWrapper {
+public class InfusionRecipeWrapper extends BlankRecipeWrapper implements IResearchableRecipeWrapper {
 	private final InfusionRecipe recipe;
 	private final List<Object> inputs;
 	private final List<ItemStack> outputs;
@@ -86,16 +84,6 @@ public class InfusionRecipeWrapper implements IRecipeWrapper, IResearchableRecip
 	@Override
 	public List<ItemStack> getOutputs() {
 		return outputs;
-	}
-
-	@Override
-	public List<FluidStack> getFluidInputs() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<FluidStack> getFluidOutputs() {
-		return Collections.emptyList();
 	}
 
 	@Override

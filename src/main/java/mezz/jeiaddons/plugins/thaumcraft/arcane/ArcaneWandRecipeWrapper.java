@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
@@ -18,7 +19,7 @@ import mezz.jeiaddons.utils.DummyInventoryCrafting;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.lib.crafting.ArcaneWandRecipe;
 
-public class ArcaneWandRecipeWrapper implements IShapedCraftingRecipeWrapper, IResearchableRecipeWrapper {
+public class ArcaneWandRecipeWrapper extends BlankRecipeWrapper implements IShapedCraftingRecipeWrapper, IResearchableRecipeWrapper {
 	private static final ArcaneWandRecipe recipe = new ArcaneWandRecipe();
 	private final List inputs;
 	private final List<ItemStack> outputs;

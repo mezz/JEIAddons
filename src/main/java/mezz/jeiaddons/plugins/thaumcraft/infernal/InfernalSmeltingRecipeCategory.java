@@ -56,6 +56,11 @@ public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
 		fontRenderer.drawString("(0 - 3)", bonusSlotX, textY, Color.gray.getRGB());
 	}
 
+	@Override
+	public void drawAnimations(Minecraft minecraft) {
+
+	}
+
 	@Nonnull
 	@Override
 	public String getTitle() {

@@ -69,6 +69,11 @@ public class ArcaneRecipeCategory implements IRecipeCategory {
 	}
 
 	@Override
+	public void drawAnimations(Minecraft minecraft) {
+
+	}
+
+	@Override
 	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
