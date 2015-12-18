@@ -176,14 +176,12 @@ public class ThaumcraftHelper {
 
 		Class arcaneWandRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneWandRecipe");
 		if (arcaneWandRecipeClass != null) {
-			registry.addIgnoredRecipeClasses(arcaneWandRecipeClass);
 			registry.addRecipeHandlers(new ArcaneWandRecipeHandler());
 			registry.addRecipes(ArcaneWandRecipeMaker.getRecipes());
 		}
 
 		Class arcaneScepterRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneSceptreRecipe");
 		if (arcaneScepterRecipeClass != null) {
-			registry.addIgnoredRecipeClasses(arcaneScepterRecipeClass);
 			registry.addRecipeHandlers(new ArcaneSceptreRecipeHandler());
 			registry.addRecipes(ArcaneScepterRecipeMaker.getRecipes());
 		}
