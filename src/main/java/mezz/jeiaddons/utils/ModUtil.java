@@ -16,7 +16,8 @@ import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import net.minecraftforge.fml.common.versioning.VersionParser;
 import net.minecraftforge.fml.common.versioning.VersionRange;
 
-import mezz.jei.api.JEIManager;
+import mezz.jei.api.IItemRegistry;
+import mezz.jeiaddons.JEIAddonsPlugin;
 
 public class ModUtil {
 	public static boolean isModLoaded(String modname) {
@@ -65,11 +66,12 @@ public class ModUtil {
 
 	@Nonnull
 	public static List<ItemStack> getItemStacksFromMod(Iterable<ItemStack> itemStacks, String modId) {
+		IItemRegistry itemRegistry = JEIAddonsPlugin.itemRegistry;
 		List<ItemStack> itemStacksFromMod = new ArrayList<>();
 		for (ItemStack itemStack : itemStacks) {
 			if (itemStack != null) {
 				Item item = itemStack.getItem();
-				if (JEIManager.itemRegistry.getModNameForItem(item).equals(modId)) {
+				if (itemRegistry.getModNameForItem(item).equals(modId)) {
 					itemStacksFromMod.add(itemStack);
 				}
 			}

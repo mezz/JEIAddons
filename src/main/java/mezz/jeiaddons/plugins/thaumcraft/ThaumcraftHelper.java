@@ -16,12 +16,16 @@ import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.IItemBlacklist;
 import mezz.jei.api.IModRegistry;
-import mezz.jei.api.JEIManager;
+import mezz.jei.api.INbtIgnoreList;
+import mezz.jei.api.IRecipeRegistry;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.config.Config;
 import mezz.jei.config.Constants;
 import mezz.jei.gui.RecipesGuiInitEvent;
+import mezz.jeiaddons.JEIAddonsPlugin;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneScepterRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneSceptreRecipeHandler;
@@ -82,11 +86,12 @@ public class ThaumcraftHelper {
 	@SubscribeEvent
 	public void onConfigChange(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
 		if (Constants.MOD_ID.equals(event.modID)) {
-			requireResearch = Config.configFile.getBoolean(Config.categoryAddons, configRequireResearchId, requireResearch);
+			requireResearch = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, requireResearch);
 
-			List<ItemStack> thaumcraftItems = JEIManager.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
+			IItemBlacklist itemBlacklist = JEIAddonsPlugin.jeiHelpers.getItemBlacklist();
+			List<ItemStack> thaumcraftItems = JEIAddonsPlugin.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
 			for (ItemStack itemStack : thaumcraftItems) {
-				JEIManager.itemBlacklist.removeItemFromBlacklist(itemStack);
+				itemBlacklist.removeItemFromBlacklist(itemStack);
 			}
 		}
 	}
@@ -94,10 +99,11 @@ public class ThaumcraftHelper {
 	private boolean addResearchedRecipes() {
 		boolean added = false;
 		Iterator<IResearchableRecipeWrapper> iterator = unresearchedRecipes.iterator();
+		IRecipeRegistry recipeRegistry = JEIAddonsPlugin.recipeRegistry;
 		while (iterator.hasNext()) {
 			IResearchableRecipeWrapper recipeWrapper = iterator.next();
 			if (recipeWrapper.isResearched()) {
-				JEIManager.recipeRegistry.addRecipe(recipeWrapper.getRecipe());
+				recipeRegistry.addRecipe(recipeWrapper.getRecipe());
 				removeRecipeOutputsFromBlacklist(recipeWrapper);
 				iterator.remove();
 				added = true;
@@ -121,26 +127,29 @@ public class ThaumcraftHelper {
 
 	private void addRecipeOutputsToBlacklist(IResearchableRecipeWrapper recipe) {
 		List<ItemStack> thaumcraftOutputs = ModUtil.getItemStacksFromMod(recipe.getOutputs(), PluginThaumcraft.modId);
+		IItemBlacklist itemBlacklist = JEIAddonsPlugin.jeiHelpers.getItemBlacklist();
 		for (ItemStack output : thaumcraftOutputs) {
-			JEIManager.itemBlacklist.addItemToBlacklist(output);
+			itemBlacklist.addItemToBlacklist(output);
 		}
 	}
 
 	private void removeRecipeOutputsFromBlacklist(IResearchableRecipeWrapper recipe) {
 		List<ItemStack> thaumcraftOutputs = ModUtil.getItemStacksFromMod(recipe.getOutputs(), PluginThaumcraft.modId);
+		IItemBlacklist itemBlacklist = JEIAddonsPlugin.jeiHelpers.getItemBlacklist();
 		for (ItemStack output : thaumcraftOutputs) {
-			JEIManager.itemBlacklist.removeItemFromBlacklist(output);
+			itemBlacklist.removeItemFromBlacklist(output);
 		}
 	}
 
 	public void preInit() {
 		Set<String> aspectTags = Aspect.aspects.keySet();
 		String[] aspectTagsArray = aspectTags.toArray(new String[aspectTags.size()]);
-		JEIManager.nbtIgnoreList.ignoreNbtTagNames(aspectTagsArray);
+		INbtIgnoreList nbtIgnoreList = JEIAddonsPlugin.jeiHelpers.getNbtIgnoreList();
+		nbtIgnoreList.ignoreNbtTagNames(aspectTagsArray);
 	}
 
 	public void loadConfig() {
-		requireResearch = Config.configFile.getBoolean(Config.categoryAddons, configRequireResearchId, requireResearch);
+		requireResearch = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, requireResearch);
 
 		if (Config.configFile.hasChanged()) {
 			Config.configFile.save();
@@ -150,11 +159,13 @@ public class ThaumcraftHelper {
 	public void register(IModRegistry registry) {
 		loadConfig();
 
+		IGuiHelper guiHelper = JEIAddonsPlugin.jeiHelpers.getGuiHelper();
+
 		registry.addRecipeCategories(
-				new ArcaneRecipeCategory(),
-				new InfusionRecipeCategory(),
-				new CrucibleRecipeCategory(),
-				new InfernalSmeltingRecipeCategory()
+				new ArcaneRecipeCategory(guiHelper),
+				new InfusionRecipeCategory(guiHelper),
+				new CrucibleRecipeCategory(guiHelper),
+				new InfernalSmeltingRecipeCategory(guiHelper)
 		);
 
 		registry.addRecipeHandlers(

@@ -8,7 +8,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.JEIManager;
+import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -28,13 +28,16 @@ public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
 	@Nonnull
 	private final IDrawable smeltBackground;
 	@Nonnull
+	private final IDrawable slotDrawable;
+	@Nonnull
 	private final String localizedName;
 	@Nonnull
 	private final String bonusString;
 
-	public InfernalSmeltingRecipeCategory() {
+	public InfernalSmeltingRecipeCategory(IGuiHelper guiHelper) {
 		ResourceLocation location = new ResourceLocation("minecraft", "textures/gui/container/furnace.png");
-		smeltBackground = JEIManager.guiHelper.createDrawable(location, 55, 16, 82, 54, 0, 0, 0, 30);
+		smeltBackground = guiHelper.createDrawable(location, 55, 16, 82, 54, 0, 0, 0, 30);
+		slotDrawable = guiHelper.getSlotDrawable();
 
 		localizedName = StatCollector.translateToLocal("JEIAddons.category.thaumcraft.infernal.smelting");
 		bonusString = StatCollector.translateToLocal("JEIAddons.thaumcraft.infernal.bonus");
@@ -48,7 +51,7 @@ public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
 
 	@Override
 	public void drawExtras(Minecraft minecraft) {
-		JEIManager.guiHelper.getSlotDrawable().draw(minecraft, bonusSlotX, bonusSlotY);
+		slotDrawable.draw(minecraft, bonusSlotX, bonusSlotY);
 		FontRenderer fontRenderer = minecraft.fontRendererObj;
 		int textY = bonusSlotY + 20;
 		fontRenderer.drawString(bonusString, bonusSlotX, textY, Color.gray.getRGB());

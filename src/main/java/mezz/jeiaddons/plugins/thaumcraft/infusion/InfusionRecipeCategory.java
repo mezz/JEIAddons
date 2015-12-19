@@ -10,7 +10,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.JEIManager;
+import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -30,12 +30,12 @@ public class InfusionRecipeCategory implements IRecipeCategory {
 	@Nonnull
 	private final String localizedName;
 
-	public InfusionRecipeCategory() {
+	public InfusionRecipeCategory(IGuiHelper guiHelper) {
 		ResourceLocation location = new ResourceLocation("minecraft:textures/gui/container/crafting_table.png");
-		background = JEIManager.guiHelper.createDrawable(location, 85, 16, 60, 54, 16, 56, 90, 0);
+		background = guiHelper.createDrawable(location, 85, 16, 60, 54, 16, 56, 90, 0);
 
 		ResourceLocation backgroundDesignLocation = new ResourceLocation("thaumcraft", "textures/gui/gui_researchbook_overlay.png");
-		backgroundDesign = JEIManager.guiHelper.createDrawable(backgroundDesignLocation, 200, 75, 50, 50);
+		backgroundDesign = guiHelper.createDrawable(backgroundDesignLocation, 200, 75, 50, 50);
 
 		localizedName = StatCollector.translateToLocal("recipe.type.infusion");
 	}

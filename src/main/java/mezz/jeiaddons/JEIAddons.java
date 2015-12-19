@@ -19,7 +19,7 @@ import mezz.jeiaddons.utils.ModUtil;
 @Mod(
 		modid = JEIAddons.MOD_ID,
 		version = JEIAddons.VERSION,
-		dependencies = "required-after:JEI@[1.8.1,)"
+		dependencies = "required-after:JEI@[1.10.0,)"
 )
 public class JEIAddons {
 	public static final String MOD_ID = "JEIAddons";

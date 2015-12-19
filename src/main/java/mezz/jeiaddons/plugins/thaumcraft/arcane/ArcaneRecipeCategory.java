@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.JEIManager;
+import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.ICraftingGridHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -32,15 +32,15 @@ public class ArcaneRecipeCategory implements IRecipeCategory {
 	@Nonnull
 	private final ICraftingGridHelper craftingGridHelper;
 
-	public ArcaneRecipeCategory() {
+	public ArcaneRecipeCategory(IGuiHelper guiHelper) {
 		ResourceLocation backgroundLocation = new ResourceLocation("minecraft", "textures/gui/container/crafting_table.png");
-		background = JEIManager.guiHelper.createDrawable(backgroundLocation, 29, 16, 116, 54, 0, 20, 0, 0);
+		background = guiHelper.createDrawable(backgroundLocation, 29, 16, 116, 54, 0, 20, 0, 0);
 
 		ResourceLocation wandLocation = new ResourceLocation("thaumcraft", "textures/gui/gui_researchbook_overlay.png");
-		wand = JEIManager.guiHelper.createDrawable(wandLocation, 65, 75, 15, 15);
+		wand = guiHelper.createDrawable(wandLocation, 65, 75, 15, 15);
 
 		localizedName = StatCollector.translateToLocal("recipe.type.arcane");
-		craftingGridHelper = JEIManager.guiHelper.createCraftingGridHelper(craftInputSlot1, craftOutputSlot);
+		craftingGridHelper = guiHelper.createCraftingGridHelper(craftInputSlot1, craftOutputSlot);
 	}
 
 	@Nonnull

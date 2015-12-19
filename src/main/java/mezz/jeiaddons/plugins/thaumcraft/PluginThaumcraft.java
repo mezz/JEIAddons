@@ -3,8 +3,11 @@ package mezz.jeiaddons.plugins.thaumcraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import mezz.jei.api.IItemRegistry;
+import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
+import mezz.jei.api.IRecipeRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jeiaddons.utils.ModUtil;
 
@@ -19,6 +22,16 @@ public class PluginThaumcraft implements IModPlugin {
 	}
 
 	@Override
+	public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
+
+	}
+
+	@Override
+	public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
+
+	}
+
+	@Override
 	public void register(IModRegistry registry) {
 		// the plugin may get created multiple times for multiple game runs
 		if (helper != null) {
@@ -30,5 +43,10 @@ public class PluginThaumcraft implements IModPlugin {
 		FMLCommonHandler.instance().bus().register(helper);
 
 		helper.register(registry);
+	}
+
+	@Override
+	public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
+
 	}
 }

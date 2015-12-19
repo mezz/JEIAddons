@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.JEIManager;
+import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -30,13 +30,13 @@ public class CrucibleRecipeCategory implements IRecipeCategory {
 	@Nonnull
 	private final String localizedName;
 
-	public CrucibleRecipeCategory() {
+	public CrucibleRecipeCategory(IGuiHelper guiHelper) {
 		ResourceLocation location = new ResourceLocation("minecraft:textures/gui/container/crafting_table.png");
-		background = JEIManager.guiHelper.createDrawable(location, 85, 30, 60, 26, 10, 20, 60, 0);
+		background = guiHelper.createDrawable(location, 85, 30, 60, 26, 10, 20, 60, 0);
 
 		ResourceLocation backgroundDesignLocation = new ResourceLocation("thaumcraft", "textures/gui/gui_researchbook_overlay.png");
-		backgroundDesign = JEIManager.guiHelper.createDrawable(backgroundDesignLocation, 0, 20, 60, 50);
-		arrow = JEIManager.guiHelper.createDrawable(backgroundDesignLocation, 100, 82, 16, 16);
+		backgroundDesign = guiHelper.createDrawable(backgroundDesignLocation, 0, 20, 60, 50);
+		arrow = guiHelper.createDrawable(backgroundDesignLocation, 100, 82, 16, 16);
 
 		localizedName = StatCollector.translateToLocal("recipe.type.crucible");
 	}
