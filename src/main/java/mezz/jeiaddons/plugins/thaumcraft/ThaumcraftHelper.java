@@ -22,6 +22,7 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.INbtIgnoreList;
 import mezz.jei.api.IRecipeRegistry;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import mezz.jei.config.Config;
 import mezz.jei.config.Constants;
 import mezz.jei.gui.RecipesGuiInitEvent;
@@ -160,6 +161,7 @@ public class ThaumcraftHelper {
 		loadConfig();
 
 		IGuiHelper guiHelper = JEIAddonsPlugin.jeiHelpers.getGuiHelper();
+		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
 		registry.addRecipeCategories(
 				new ArcaneRecipeCategory(guiHelper),
@@ -181,8 +183,8 @@ public class ThaumcraftHelper {
 
 		Class<? extends Container> arcaneWorkbenchClass = ModUtil.getContainerClassForName("thaumcraft.common.container.ContainerArcaneWorkbench");
 		if (arcaneWorkbenchClass != null) {
-			registry.addBasicRecipeTransferHelper(arcaneWorkbenchClass, ThaumcraftRecipeUids.ARCANE, 2, 9, 11, 36);
-			registry.addBasicRecipeTransferHelper(arcaneWorkbenchClass, VanillaRecipeCategoryUid.CRAFTING, 2, 9, 11, 36);
+			recipeTransferRegistry.addRecipeTransferHandler(arcaneWorkbenchClass, ThaumcraftRecipeUids.ARCANE, 2, 9, 11, 36);
+			recipeTransferRegistry.addRecipeTransferHandler(arcaneWorkbenchClass, VanillaRecipeCategoryUid.CRAFTING, 2, 9, 11, 36);
 		}
 
 		Class arcaneWandRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneWandRecipe");

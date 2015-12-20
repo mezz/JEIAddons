@@ -32,7 +32,7 @@ public class InfernalSmeltingRecipeWrapper extends BlankRecipeWrapper implements
 		this.bonusOutput = bonusOutput;
 
 		if (experience > 0.0) {
-			experienceString = StatCollector.translateToLocalFormatted("gui.jei.furnaceExperience", experience);
+			experienceString = StatCollector.translateToLocalFormatted("gui.jei.category.smelting.experience", experience);
 		} else {
 			experienceString = null;
 		}
