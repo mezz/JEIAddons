@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -19,6 +18,7 @@ import mezz.jeiaddons.utils.ModUtil;
 @Mod(
 		modid = JEIAddons.MOD_ID,
 		version = JEIAddons.VERSION,
+		clientSideOnly = true,
 		dependencies = "required-after:JEI@[1.11.0,)"
 )
 public class JEIAddons {
@@ -27,14 +27,16 @@ public class JEIAddons {
 
 	@Mod.EventHandler
 	public void preInit(@Nonnull FMLPreInitializationEvent event) {
+		if (event.getSide() != Side.CLIENT) {
+			return;
+		}
+
 		if (ModUtil.isModLoaded(PluginThaumcraft.modId)) {
 			ThaumcraftHelper thaumcraftHelper = new ThaumcraftHelper();
 			thaumcraftHelper.preInit();
 		}
 
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			initVersionChecker();
-		}
+		initVersionChecker();
 	}
 
 	private void initVersionChecker() {
