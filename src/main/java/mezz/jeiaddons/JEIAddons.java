@@ -43,6 +43,6 @@ public class JEIAddons {
 		final NBTTagCompound compound = new NBTTagCompound();
 		compound.setString("curseProjectName", "jeiaddons");
 		compound.setString("curseFilenameParser", "JEIAddons_" + ForgeVersion.mcVersion + "-[].jar");
-		FMLInterModComms.sendRuntimeMessage(Constants.MOD_ID, "VersionChecker", "addCurseCheck", compound);
+		FMLInterModComms.sendRuntimeMessage(JEIAddons.MOD_ID, "VersionChecker", "addCurseCheck", compound);
 	}
 }
