@@ -39,11 +39,20 @@ repositories {
 		name "Thaumcraft"
 		artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[module]-deobf-${mcversion}-[revision].[ext]"
 	}
+//	ivy {
+//		name "Aroma1997Core"
+//		artifactPattern "http://addons-origin.cursecdn.com/files/2232/553/[module]-${mcversion}-[revision].[ext]"
+//	}
+	ivy {
+		name "Aroma1997Core"
+		artifactPattern "http://files.aroma1997.org/mcmods/aroma1997core/version/[module]-${mcversion}-[revision]-deobf.[ext]"
+	}
 }
 
 dependencies {
 	deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}"
 	deobfCompile name: 'Thaumcraft', version: "${thaumcraft_version}", ext: 'jar'
+	deobfCompile name: 'Aroma1997Core', version: "${aroma1997core_version}", ext: 'jar'
 }
 
 processResources
