@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import mezz.jei.config.Constants;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftHelper;
 import mezz.jeiaddons.utils.ModUtil;
