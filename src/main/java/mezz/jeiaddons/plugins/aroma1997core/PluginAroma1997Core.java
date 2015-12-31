@@ -6,6 +6,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.IRecipeRegistry;
 import mezz.jei.api.JEIPlugin;
+import mezz.jeiaddons.utils.ModUtil;
 
 @JEIPlugin
 public class PluginAroma1997Core implements IModPlugin {
@@ -26,10 +27,13 @@ public class PluginAroma1997Core implements IModPlugin {
 
 	@Override
 	public void register(IModRegistry registry) {
-		registry.addRecipeHandlers(
-				new ShapedAromicRecipeHandler(),
-				new ShapelessAromicRecipeHandler()
-		);
+		if (ModUtil.classExists("aroma1997.core.recipes.ShapedAromicRecipe")) {
+			registry.addRecipeHandlers(new ShapedAromicRecipeHandler());
+		}
+
+		if (ModUtil.classExists("aroma1997.core.recipes.ShapelessAromicRecipe")) {
+			registry.addRecipeHandlers(new ShapelessAromicRecipeHandler());
+		}
 	}
 
 	@Override

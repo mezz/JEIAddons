@@ -33,6 +33,10 @@ public class PluginThaumcraft implements IModPlugin {
 
 	@Override
 	public void register(IModRegistry registry) {
+		if (!ModUtil.isModLoaded(modId)) {
+			return;
+		}
+
 		// the plugin may get created multiple times for multiple game runs
 		if (helper != null) {
 			MinecraftForge.EVENT_BUS.unregister(helper);

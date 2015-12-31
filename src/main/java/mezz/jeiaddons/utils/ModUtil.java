@@ -44,6 +44,10 @@ public class ModUtil {
 		return true;
 	}
 
+	public static boolean classExists(String className) {
+		return getClassForName(className) != null;
+	}
+
 	@Nullable
 	public static Class getClassForName(String className) {
 		try {
