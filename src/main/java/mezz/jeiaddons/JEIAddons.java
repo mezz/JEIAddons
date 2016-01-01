@@ -18,7 +18,8 @@ import mezz.jeiaddons.utils.ModUtil;
 		modid = JEIAddons.MOD_ID,
 		version = JEIAddons.VERSION,
 		clientSideOnly = true,
-		dependencies = "required-after:JEI@[1.11.0,)"
+		acceptedMinecraftVersions = "[1.8.8, 1.8.9]",
+		dependencies = "required-after:JEI@[2.13,)"
 )
 public class JEIAddons {
 	public static final String MOD_ID = "JEIAddons";

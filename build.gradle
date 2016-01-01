@@ -1,6 +1,16 @@
-plugins {
-	id "net.minecraftforge.gradle.forge" version "2.0.2"
+buildscript {
+	repositories {
+		jcenter()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+	}
 }
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = version_major + '.' + version_minor + '.' + version_patch
 group= "mezz.JEIAddons" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -20,13 +30,7 @@ minecraft {
 
 	replace '@VERSION@', project.version
 
-	// the mappings can be changed at any time, and must be in the following format.
-	// snapshot_YYYYMMDD   snapshot are built nightly.
-	// stable_#            stables are built at the discretion of the MCP team.
-	// Use non-default mappings at your own risk. they may not allways work.
-	// simply re-run your setup task after changing the mappings to update your workspace.
-	mappings = "snapshot_20141130"
-	// makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+	mappings = "snapshot_20151217"
 
 	useDepAts = true
 }
@@ -35,24 +39,24 @@ repositories {
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
 	}
-	ivy {
-		name "Thaumcraft"
-		artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[module]-deobf-${mcversion}-[revision].[ext]"
-	}
+//	ivy {
+//		name "Thaumcraft"
+//		artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[module]-deobf-${mcversion}-[revision].[ext]"
+//	}
 //	ivy {
 //		name "Aroma1997Core"
 //		artifactPattern "http://addons-origin.cursecdn.com/files/2232/553/[module]-${mcversion}-[revision].[ext]"
 //	}
-	ivy {
-		name "Aroma1997Core"
-		artifactPattern "http://files.aroma1997.org/mcmods/aroma1997core/version/[module]-${mcversion}-[revision]-deobf.[ext]"
-	}
+//	ivy {
+//		name "Aroma1997Core"
+//		artifactPattern "http://files.aroma1997.org/mcmods/aroma1997core/version/[module]-${mcversion}-[revision]-deobf.[ext]"
+//	}
 }
 
 dependencies {
-	deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}"
-	deobfCompile name: 'Thaumcraft', version: "${thaumcraft_version}", ext: 'jar'
-	deobfCompile name: 'Aroma1997Core', version: "${aroma1997core_version}", ext: 'jar'
+	deobfCompile "mezz.jei:jei_${jei_mcversion}:${jei_version}"
+//	deobfCompile name: 'Thaumcraft', version: "${thaumcraft_version}", ext: 'jar'
+//	deobfCompile name: 'Aroma1997Core', version: "${aroma1997core_version}", ext: 'jar'
 }
 
 processResources
