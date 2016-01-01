@@ -1,6 +1,7 @@
 package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -26,21 +27,30 @@ public class ArcaneWandRecipeWrapper extends BlankRecipeWrapper implements IShap
 	private final InventoryCrafting crafting;
 	private final AspectList aspectList;
 
-	public ArcaneWandRecipeWrapper(ItemStack wandRod, ItemStack wandCap) {
+	@Nullable
+	public static ArcaneWandRecipeWrapper create(ItemStack wandRod, ItemStack wandCap) {
+		InventoryCrafting crafting = new DummyInventoryCrafting(3, 3);
+		crafting.setInventorySlotContents(2, wandCap);
+		crafting.setInventorySlotContents(6, wandCap);
+		crafting.setInventorySlotContents(4, wandRod);
+
+		ItemStack wandOutput = recipe.getCraftingResult(crafting);
+		if (wandOutput == null) {
+			return null;
+		}
+
+		return new ArcaneWandRecipeWrapper(wandRod, wandCap, crafting, wandOutput);
+	}
+
+	private ArcaneWandRecipeWrapper(ItemStack wandRod, ItemStack wandCap, InventoryCrafting crafting, ItemStack wandOutput) {
+		this.crafting = crafting;
+		this.aspectList = recipe.getAspects(this.crafting);
+
 		this.inputs = Arrays.asList(
 				null, null, wandCap,
 				null, wandRod, null,
 				wandCap, null, null
 		);
-
-		this.crafting = new DummyInventoryCrafting(3, 3);
-		this.crafting.setInventorySlotContents(2, wandCap);
-		this.crafting.setInventorySlotContents(6, wandCap);
-		this.crafting.setInventorySlotContents(4, wandRod);
-
-		this.aspectList = recipe.getAspects(this.crafting);
-
-		ItemStack wandOutput = recipe.getCraftingResult(this.crafting);
 		this.outputs = Collections.singletonList(wandOutput);
 	}
 
@@ -69,7 +79,11 @@ public class ArcaneWandRecipeWrapper extends BlankRecipeWrapper implements IShap
 		PluginThaumcraft.helper.drawAspects(aspectList, recipeWidth, recipeHeight - 18);
 	}
 
+	@Override
 	public boolean isResearched() {
+		if (!PluginThaumcraft.helper.isResearchRequired()) {
+			return true;
+		}
 		Minecraft minecraft = Minecraft.getMinecraft();
 		return minecraft.thePlayer != null && recipe.matches(crafting, minecraft.theWorld, minecraft.thePlayer);
 	}

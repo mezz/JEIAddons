@@ -17,9 +17,10 @@ public class ArcaneScepterRecipeMaker {
 		Collection<WandRod> wandRods = WandRod.rods.values();
 		for (WandCap wandCap : wandCaps) {
 			for (WandRod wandRod : wandRods) {
-
-				ArcaneSceptreRecipeWrapper recipe = new ArcaneSceptreRecipeWrapper(wandRod.getItem(), wandCap.getItem());
-				recipes.add(recipe);
+				ArcaneSceptreRecipeWrapper recipe = ArcaneSceptreRecipeWrapper.create(wandRod.getItem(), wandCap.getItem());
+				if (recipe != null) {
+					recipes.add(recipe);
+				}
 			}
 		}
 

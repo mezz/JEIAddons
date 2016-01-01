@@ -24,8 +24,10 @@ public class ArcaneWandRecipeMaker {
 				if (wandCap == ironCap && wandRod == woodRod) {
 					continue;
 				}
-				ArcaneWandRecipeWrapper recipe = new ArcaneWandRecipeWrapper(wandRod.getItem(), wandCap.getItem());
-				recipes.add(recipe);
+				ArcaneWandRecipeWrapper recipe = ArcaneWandRecipeWrapper.create(wandRod.getItem(), wandCap.getItem());
+				if (recipe != null) {
+					recipes.add(recipe);
+				}
 			}
 		}
 

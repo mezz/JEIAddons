@@ -54,7 +54,7 @@ import thaumcraft.client.lib.UtilsFX;
 public class ThaumcraftHelper {
 	private static final String configRequireResearchId = "requireThaumcraftResearch";
 	private static final String researchSound = "thaumcraft:learn";
-	private boolean requireResearch = true;
+	private boolean researchRequired = true;
 	private final List<IResearchableRecipeWrapper> unresearchedRecipes = new ArrayList<>();
 	private boolean addedInitialRecipes = false;
 
@@ -87,7 +87,7 @@ public class ThaumcraftHelper {
 	@SubscribeEvent
 	public void onConfigChange(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
 		if (Constants.MOD_ID.equals(event.modID)) {
-			requireResearch = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, requireResearch);
+			researchRequired = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, researchRequired);
 
 			IItemBlacklist itemBlacklist = JEIAddonsPlugin.jeiHelpers.getItemBlacklist();
 			List<ItemStack> thaumcraftItems = JEIAddonsPlugin.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
@@ -113,8 +113,12 @@ public class ThaumcraftHelper {
 		return added;
 	}
 
+	public boolean isResearchRequired() {
+		return researchRequired;
+	}
+
 	public boolean isResearched(String... research) {
-		if (!requireResearch || research == null || research[0].length() <= 0) {
+		if (!researchRequired || research == null || research[0].length() <= 0) {
 			return true;
 		}
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -150,7 +154,7 @@ public class ThaumcraftHelper {
 	}
 
 	public void loadConfig() {
-		requireResearch = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, requireResearch);
+		researchRequired = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, researchRequired);
 
 		if (Config.configFile.hasChanged()) {
 			Config.configFile.save();
@@ -187,14 +191,12 @@ public class ThaumcraftHelper {
 			recipeTransferRegistry.addRecipeTransferHandler(arcaneWorkbenchClass, VanillaRecipeCategoryUid.CRAFTING, 2, 9, 11, 36);
 		}
 
-		Class arcaneWandRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneWandRecipe");
-		if (arcaneWandRecipeClass != null) {
+		if (ModUtil.classExists("thaumcraft.common.lib.crafting.ArcaneWandRecipe")) {
 			registry.addRecipeHandlers(new ArcaneWandRecipeHandler());
 			registry.addRecipes(ArcaneWandRecipeMaker.getRecipes());
 		}
 
-		Class arcaneScepterRecipeClass = ModUtil.getClassForName("thaumcraft.common.lib.crafting.ArcaneSceptreRecipe");
-		if (arcaneScepterRecipeClass != null) {
+		if (ModUtil.classExists("thaumcraft.common.lib.crafting.ArcaneSceptreRecipe")) {
 			registry.addRecipeHandlers(new ArcaneSceptreRecipeHandler());
 			registry.addRecipes(ArcaneScepterRecipeMaker.getRecipes());
 		}
