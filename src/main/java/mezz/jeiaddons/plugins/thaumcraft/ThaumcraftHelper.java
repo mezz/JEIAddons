@@ -1,5 +1,7 @@
 package mezz.jeiaddons.plugins.thaumcraft;
 
+import com.google.common.collect.ImmutableList;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
@@ -45,7 +48,9 @@ import mezz.jeiaddons.utils.ModUtil;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchHelper;
+import thaumcraft.api.wands.IWand;
 import thaumcraft.client.lib.UtilsFX;
+import thaumcraft.common.config.ConfigItems;
 
 /**
  * When IRecipeHandler.isRecipeValid is called, Thaumcraft hasn't synced the research to client yet.
@@ -164,6 +169,8 @@ public class ThaumcraftHelper {
 	public void register(IModRegistry registry) {
 		loadConfig();
 
+		addMissingNbtToWands();
+
 		IGuiHelper guiHelper = JEIAddonsPlugin.jeiHelpers.getGuiHelper();
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
@@ -199,6 +206,26 @@ public class ThaumcraftHelper {
 		if (ModUtil.classExists("thaumcraft.common.lib.crafting.ArcaneSceptreRecipe")) {
 			registry.addRecipeHandlers(new ArcaneSceptreRecipeHandler());
 			registry.addRecipes(ArcaneScepterRecipeMaker.getRecipes());
+		}
+	}
+
+	/**
+	 * Thaumcraft handles the case where the wand is missing nbt for cap or rod.
+	 * JEI needs this NBT set explicitly to look things up, so it is done here.
+	 */
+	private static void addMissingNbtToWands() {
+		ImmutableList<ItemStack> itemStacks = JEIAddonsPlugin.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
+		for (ItemStack itemStack : itemStacks) {
+			Item item = itemStack.getItem();
+			if (item instanceof IWand) {
+				IWand wand = (IWand) item;
+				if (wand.getCap(itemStack) == ConfigItems.WAND_CAP_IRON) {
+					wand.setCap(itemStack, ConfigItems.WAND_CAP_IRON);
+				}
+				if (wand.getRod(itemStack) == ConfigItems.WAND_ROD_WOOD) {
+					wand.setRod(itemStack, ConfigItems.WAND_ROD_WOOD);
+				}
+			}
 		}
 	}
 
