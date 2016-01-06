@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
@@ -20,7 +21,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.ArcaneSceptreRecipe;
 
-public class ArcaneSceptreRecipeWrapper implements IShapedCraftingRecipeWrapper, IResearchableRecipeWrapper {
+public class ArcaneSceptreRecipeWrapper extends BlankRecipeWrapper implements IShapedCraftingRecipeWrapper, IResearchableRecipeWrapper {
 	private static final ArcaneSceptreRecipe recipe = new ArcaneSceptreRecipe();
 	private static final ItemStack primalCharm = new ItemStack(ItemsTC.primalCharm);
 	private final List inputs;

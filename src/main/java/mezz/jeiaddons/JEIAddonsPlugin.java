@@ -14,11 +14,6 @@ public class JEIAddonsPlugin implements IModPlugin {
 	public static IRecipeRegistry recipeRegistry;
 
 	@Override
-	public boolean isModLoaded() {
-		return true;
-	}
-
-	@Override
 	public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
 		JEIAddonsPlugin.jeiHelpers = jeiHelpers;
 	}
