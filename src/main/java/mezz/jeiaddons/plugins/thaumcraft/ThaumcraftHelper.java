@@ -59,7 +59,7 @@ import thaumcraft.common.config.ConfigItems;
 public class ThaumcraftHelper {
 	private static final String configRequireResearchId = "requireThaumcraftResearch";
 	private static final String researchSound = "thaumcraft:learn";
-	private boolean researchRequired = true;
+	private boolean researchRequired = false;
 	private final List<IResearchableRecipeWrapper> unresearchedRecipes = new ArrayList<>();
 	private boolean addedInitialRecipes = false;
 

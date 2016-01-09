@@ -39,10 +39,10 @@ repositories {
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
 	}
-//	ivy {
-//		name "Thaumcraft"
-//		artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[module]-deobf-${mcversion}-[revision].[ext]"
-//	}
+	ivy {
+		name "Thaumcraft"
+		artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[module]-${mcversion}-[revision]-deobf.[ext]"
+	}
 //	ivy {
 //		name "Aroma1997Core"
 //		artifactPattern "http://addons-origin.cursecdn.com/files/2232/553/[module]-${mcversion}-[revision].[ext]"
@@ -55,7 +55,7 @@ repositories {
 
 dependencies {
 	deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}"
-//	deobfCompile name: 'Thaumcraft', version: "${thaumcraft_version}", ext: 'jar'
+	deobfCompile name: 'Thaumcraft', version: "${thaumcraft_version}", ext: 'jar'
 //	deobfCompile name: 'Aroma1997Core', version: "${aroma1997core_version}", ext: 'jar'
 }
 
