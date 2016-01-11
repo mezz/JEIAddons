@@ -19,7 +19,9 @@ import mezz.jeiaddons.utils.ModUtil;
 		version = JEIAddons.VERSION,
 		clientSideOnly = true,
 		acceptedMinecraftVersions = "[1.8.8, 1.8.9]",
-		dependencies = "required-after:JEI@[2.14,)"
+		dependencies =
+				"required-after:JEI@[2.16,);" +
+				"after:Thaumcraft"
 )
 public class JEIAddons {
 	public static final String MOD_ID = "JEIAddons";

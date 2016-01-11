@@ -47,6 +47,7 @@ import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeHandler;
 import mezz.jeiaddons.utils.ModUtil;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchHelper;
 import thaumcraft.api.wands.IWand;
 import thaumcraft.client.lib.UtilsFX;
@@ -155,7 +156,7 @@ public class ThaumcraftHelper {
 		Set<String> aspectTags = Aspect.aspects.keySet();
 		String[] aspectTagsArray = aspectTags.toArray(new String[aspectTags.size()]);
 		INbtIgnoreList nbtIgnoreList = JEIAddonsPlugin.jeiHelpers.getNbtIgnoreList();
-		nbtIgnoreList.ignoreNbtTagNames(aspectTagsArray);
+		nbtIgnoreList.ignoreNbtTagNames(ItemsTC.wand, aspectTagsArray);
 	}
 
 	public void loadConfig() {
