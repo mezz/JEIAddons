@@ -61,7 +61,11 @@ public class InfusionRecipeCategory implements IRecipeCategory {
 	@Override
 	public void drawExtras(Minecraft minecraft) {
 		GlStateManager.enableBlend();
-		backgroundDesign.draw(minecraft, 17, 20);
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(-11, -4, 0);
+		GlStateManager.scale(2, 2, 2);
+		backgroundDesign.draw(minecraft, 0, 0);
+		GlStateManager.popMatrix();
 		GlStateManager.disableBlend();
 	}
 
