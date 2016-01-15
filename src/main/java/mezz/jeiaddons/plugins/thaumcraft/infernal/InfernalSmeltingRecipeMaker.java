@@ -12,12 +12,14 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
 
-import mezz.jei.util.StackUtil;
+import mezz.jei.api.recipe.IStackHelper;
+import mezz.jeiaddons.JEIAddonsPlugin;
 import mezz.jeiaddons.utils.Log;
 import thaumcraft.api.ThaumcraftApi;
 
 public class InfernalSmeltingRecipeMaker {
 	public static List<Object> getRecipes() {
+		IStackHelper stackHelper = JEIAddonsPlugin.jeiHelpers.getStackHelper();
 		List<Object> recipes = new ArrayList<>();
 		Map<Object, ItemStack> smeltingBonus = Collections.emptyMap();
 
@@ -47,7 +49,7 @@ public class InfernalSmeltingRecipeMaker {
 						Item item = (Item) inputList.get(0);
 						int meta = (Integer) inputList.get(1);
 						ItemStack itemStack = new ItemStack(item, 1, meta);
-						inputs = StackUtil.getSubtypes(itemStack);
+						inputs = stackHelper.getSubtypes(itemStack);
 					}
 				} catch (Throwable ignored) {
 				}

@@ -1,7 +1,6 @@
 package mezz.jeiaddons.plugins.thaumcraft.crucible;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -86,13 +85,12 @@ public class CrucibleRecipeCategory implements IRecipeCategory {
 
 		if (recipeWrapper instanceof CrucibleRecipeWrapper) {
 			CrucibleRecipeWrapper recipe = (CrucibleRecipeWrapper) recipeWrapper;
-			List<ItemStack> catalyst = recipe.getCatalyst();
 			ItemStack output = recipe.getRecipeOutput();
 
 			guiItemStacks.init(catalystIndex, true, 16, 0);
 			guiItemStacks.init(outputIndex, false, 98, 14);
 
-			guiItemStacks.set(catalystIndex, catalyst);
+			guiItemStacks.setFromRecipe(catalystIndex, recipe.getInputs());
 			guiItemStacks.set(outputIndex, output);
 		}
 	}

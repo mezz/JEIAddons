@@ -20,7 +20,7 @@ import mezz.jeiaddons.utils.ModUtil;
 		clientSideOnly = true,
 		acceptedMinecraftVersions = "[1.8.8, 1.8.9]",
 		dependencies =
-				"required-after:JEI@[2.16,);" +
+				"required-after:JEI@[2.18,);" +
 				"after:Thaumcraft"
 )
 public class JEIAddons {

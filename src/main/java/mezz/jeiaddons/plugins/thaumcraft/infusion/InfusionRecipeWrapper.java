@@ -12,7 +12,8 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.StatCollector;
 
 import mezz.jei.api.recipe.BlankRecipeWrapper;
-import mezz.jei.util.StackUtil;
+import mezz.jei.api.recipe.IStackHelper;
+import mezz.jeiaddons.JEIAddonsPlugin;
 import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
 import mezz.jeiaddons.utils.Log;
@@ -28,8 +29,9 @@ public class InfusionRecipeWrapper extends BlankRecipeWrapper implements IResear
 
 	public InfusionRecipeWrapper(InfusionRecipe recipe) {
 		this.recipe = recipe;
+		IStackHelper stackHelper = JEIAddonsPlugin.jeiHelpers.getStackHelper();
 
-		this.recipeInput = StackUtil.toItemStackList(recipe.getRecipeInput());
+		this.recipeInput = stackHelper.toItemStackList(recipe.getRecipeInput());
 		this.inputs = new ArrayList<>();
 		this.inputs.add(this.recipeInput);
 
@@ -39,16 +41,16 @@ public class InfusionRecipeWrapper extends BlankRecipeWrapper implements IResear
 			Collections.addAll(this.inputs, recipeComponents);
 
 			for (Object component : recipeComponents) {
-				List<ItemStack> componentList = StackUtil.toItemStackList(component);
+				List<ItemStack> componentList = stackHelper.toItemStackList(component);
 				this.components.add(componentList);
 			}
 		}
 
 		Object recipeOutput = recipe.getRecipeOutput();
 		if (recipeOutput instanceof ItemStack) {
-			this.outputs = StackUtil.toItemStackList(recipeOutput);
+			this.outputs = stackHelper.toItemStackList(recipeOutput);
 		} else {
-			this.outputs = StackUtil.toItemStackList(recipe.getRecipeInput());
+			this.outputs = stackHelper.toItemStackList(recipe.getRecipeInput());
 			Object[] obj = (Object[]) recipeOutput;
 			NBTBase tag = (NBTBase) obj[1];
 			for (ItemStack outputStack : this.outputs) {

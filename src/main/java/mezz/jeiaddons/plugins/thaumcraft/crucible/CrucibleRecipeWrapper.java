@@ -8,23 +8,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
 import mezz.jei.api.recipe.BlankRecipeWrapper;
-import mezz.jei.util.StackUtil;
 import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
 import thaumcraft.api.crafting.CrucibleRecipe;
 
 public class CrucibleRecipeWrapper extends BlankRecipeWrapper implements IResearchableRecipeWrapper {
 	private final CrucibleRecipe recipe;
-	private final List<ItemStack> catalyst;
 
 	public CrucibleRecipeWrapper(CrucibleRecipe recipe) {
 		this.recipe = recipe;
-		this.catalyst = StackUtil.toItemStackList(recipe.catalyst);
 	}
 
 	@Override
-	public List<List<ItemStack>> getInputs() {
-		return Collections.singletonList(catalyst);
+	public List getInputs() {
+		return Collections.singletonList(recipe.catalyst);
 	}
 
 	@Override
@@ -45,10 +42,6 @@ public class CrucibleRecipeWrapper extends BlankRecipeWrapper implements IResear
 	@Override
 	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
 		PluginThaumcraft.helper.drawAspects(recipe.aspects, recipeWidth, recipeHeight - 18);
-	}
-
-	public List<ItemStack> getCatalyst() {
-		return catalyst;
 	}
 
 	public ItemStack getRecipeOutput() {
