@@ -1,0 +1,9 @@
+# Config
+config.jei.addons.requireThaumcraftResearch=Exiger les recherches Thaumcraft
+config.jei.addons.requireThaumcraftResearch.comment=Permet de chacher les objets et les recettes de Thaumcraft qui n'ont pas été recherchés.
+
+# Categories
+JEIAddons.category.thaumcraft.infernal.smelting=Fonte infernale
+
+# Recipes
+JEIAddons.thaumcraft.infernal.bonus=Bonus
