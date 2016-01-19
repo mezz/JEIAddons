@@ -10,6 +10,11 @@ buildscript {
 		classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
 	}
 }
+
+plugins {
+	id "com.matthewprenger.cursegradle" version "1.0.7"
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = version_major + '.' + version_minor + '.' + version_patch
@@ -76,6 +81,18 @@ processResources
 	// copy everything else, thats not the mcmod.info
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
+	}
+}
+
+curseforge {
+	apiKey = project.hasProperty('curseforge_apikey') ? project.curseforge_apikey : '0'
+	project {
+		id = curse_project_id
+		changelog = 'Automatically uploaded. See https://github.com/mezz/JEIAddons/commits/'
+		releaseType = 'beta'
+		relations {
+			requiredLibrary 'just-enough-items-jei'
+		}
 	}
 }
 
