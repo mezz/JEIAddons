@@ -92,6 +92,7 @@ curseforge {
 		releaseType = 'beta'
 		relations {
 			requiredLibrary 'just-enough-items-jei'
+			optionalLibrary 'thaumcraft'
 		}
 	}
 }
