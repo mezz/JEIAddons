@@ -50,11 +50,14 @@ public class InfusionRecipeWrapper extends BlankRecipeWrapper implements IResear
 		if (recipeOutput instanceof ItemStack) {
 			this.outputs = stackHelper.toItemStackList(recipeOutput);
 		} else {
-			this.outputs = stackHelper.toItemStackList(recipe.getRecipeInput());
+			this.outputs = new ArrayList<>();
+			List<ItemStack> outputs = stackHelper.toItemStackList(recipe.getRecipeInput());
 			Object[] obj = (Object[]) recipeOutput;
 			NBTBase tag = (NBTBase) obj[1];
-			for (ItemStack outputStack : this.outputs) {
-				outputStack.setTagInfo((String) obj[0], tag);
+			for (ItemStack outputStack : outputs) {
+				ItemStack outputCopy = outputStack.copy();
+				outputCopy.setTagInfo((String) obj[0], tag);
+				this.outputs.add(outputCopy);
 			}
 		}
 
