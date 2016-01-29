@@ -28,7 +28,6 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import mezz.jei.config.Config;
 import mezz.jei.config.Constants;
-import mezz.jei.gui.RecipesGuiInitEvent;
 import mezz.jeiaddons.JEIAddonsPlugin;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneScepterRecipeMaker;
@@ -60,22 +59,8 @@ import thaumcraft.common.config.ConfigItems;
 public class ThaumcraftHelper {
 	private static final String configRequireResearchId = "requireThaumcraftResearch";
 	private static final String researchSound = "thaumcraft:learn";
-	private boolean researchRequired = false;
+	private final boolean researchRequired = false;
 	private final List<IResearchableRecipeWrapper> unresearchedRecipes = new ArrayList<>();
-	private boolean addedInitialRecipes = false;
-
-	/**
-	 * Thaumcraft research is synced on FML's PlayerEvent.PlayerLoggedInEvent.
-	 * By the time the recipe gui is opened for the first time, the Thaumcraft research should by synced.
-	 */
-	@SubscribeEvent
-	public void onRecipesGuiInit(@Nonnull RecipesGuiInitEvent event) {
-		if (!addedInitialRecipes) {
-			if (addResearchedRecipes()) {
-				addedInitialRecipes = true;
-			}
-		}
-	}
 
 	/**
 	 * There is no "researched" event, but there is a sound that is always played.
@@ -83,25 +68,25 @@ public class ThaumcraftHelper {
 	 *
 	 * This method checks the recipes to see if they were newly researched and adds them to JEI.
 	 */
-	@SubscribeEvent
-	public void onSoundEvent(PlaySoundAtEntityEvent event) {
-		if (researchSound.equals(event.name)) {
-			addResearchedRecipes();
-		}
-	}
+//	@SubscribeEvent
+//	public void onSoundEvent(PlaySoundAtEntityEvent event) {
+//		if (researchSound.equals(event.name)) {
+//			addResearchedRecipes();
+//		}
+//	}
 
-	@SubscribeEvent
-	public void onConfigChange(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (Constants.MOD_ID.equals(event.modID)) {
-			researchRequired = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, researchRequired);
-
-			IItemBlacklist itemBlacklist = JEIAddonsPlugin.jeiHelpers.getItemBlacklist();
-			List<ItemStack> thaumcraftItems = JEIAddonsPlugin.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
-			for (ItemStack itemStack : thaumcraftItems) {
-				itemBlacklist.removeItemFromBlacklist(itemStack);
-			}
-		}
-	}
+//	@SubscribeEvent
+//	public void onConfigChange(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
+//		if (Constants.MOD_ID.equals(event.modID)) {
+//			researchRequired = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, researchRequired);
+//
+//			IItemBlacklist itemBlacklist = JEIAddonsPlugin.jeiHelpers.getItemBlacklist();
+//			List<ItemStack> thaumcraftItems = JEIAddonsPlugin.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
+//			for (ItemStack itemStack : thaumcraftItems) {
+//				itemBlacklist.removeItemFromBlacklist(itemStack);
+//			}
+//		}
+//	}
 
 	private boolean addResearchedRecipes() {
 		boolean added = false;
@@ -124,11 +109,12 @@ public class ThaumcraftHelper {
 	}
 
 	public boolean isResearched(String... research) {
-		if (!researchRequired || research == null || research[0].length() <= 0) {
-			return true;
-		}
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		return player != null && ResearchHelper.isResearchComplete(player.getName(), research);
+		return true;
+//		if (!researchRequired || research == null || research[0].length() <= 0) {
+//			return true;
+//		}
+//		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+//		return player != null && ResearchHelper.isResearchComplete(player.getName(), research);
 	}
 
 	public void addUnresearchedRecipe(IResearchableRecipeWrapper recipe) {
@@ -159,16 +145,16 @@ public class ThaumcraftHelper {
 		nbtIgnoreList.ignoreNbtTagNames(ItemsTC.wand, aspectTagsArray);
 	}
 
-	public void loadConfig() {
-		researchRequired = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, researchRequired);
-
-		if (Config.configFile.hasChanged()) {
-			Config.configFile.save();
-		}
-	}
+//	public void loadConfig() {
+//		researchRequired = Config.configFile.getBoolean(Config.CATEGORY_ADDONS, configRequireResearchId, researchRequired);
+//
+//		if (Config.configFile.hasChanged()) {
+//			Config.configFile.save();
+//		}
+//	}
 
 	public void register(IModRegistry registry) {
-		loadConfig();
+//		loadConfig();
 
 		addMissingNbtToWands();
 
