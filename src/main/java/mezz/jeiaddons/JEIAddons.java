@@ -20,7 +20,7 @@ import mezz.jeiaddons.utils.ModUtil;
 		clientSideOnly = true,
 		acceptedMinecraftVersions = "[1.8.9]",
 		dependencies =
-				"required-after:JEI@[2.18,);" +
+				"required-after:JEI@[2.25,);" +
 				"after:Thaumcraft"
 )
 public class JEIAddons {
@@ -34,8 +34,7 @@ public class JEIAddons {
 		}
 
 		if (ModUtil.isModLoaded(PluginThaumcraft.modId)) {
-			ThaumcraftHelper thaumcraftHelper = new ThaumcraftHelper();
-			thaumcraftHelper.preInit();
+			ThaumcraftHelper.preInit();
 		}
 
 		initVersionChecker();

@@ -7,13 +7,10 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
-import mezz.jei.api.recipe.BlankRecipeWrapper;
-import mezz.jei.api.recipe.wrapper.ICraftingRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftCraftingRecipeWrapper;
 import thaumcraft.api.crafting.IArcaneRecipe;
 
-public abstract class ArcaneRecipeWrapper<T extends IArcaneRecipe> extends BlankRecipeWrapper implements ICraftingRecipeWrapper, IResearchableRecipeWrapper {
+public abstract class ArcaneRecipeWrapper<T extends IArcaneRecipe> extends ThaumcraftCraftingRecipeWrapper {
 	protected final T recipe;
 
 	public ArcaneRecipeWrapper(T recipe) {
@@ -26,17 +23,13 @@ public abstract class ArcaneRecipeWrapper<T extends IArcaneRecipe> extends Blank
 	}
 
 	@Override
-	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-		PluginThaumcraft.helper.drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - 18);
+	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
+		drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - 18);
 	}
 
 	@Override
 	public boolean isResearched() {
-		return PluginThaumcraft.helper.isResearched(recipe.getResearch());
-	}
-
-	@Override
-	public T getRecipe() {
-		return recipe;
+		return checkResearch(recipe.getResearch());
 	}
 }

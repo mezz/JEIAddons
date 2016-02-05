@@ -12,15 +12,13 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fluids.FluidStack;
 
-import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftCraftingRecipeWrapper;
 import mezz.jeiaddons.utils.DummyInventoryCrafting;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.lib.crafting.ArcaneWandRecipe;
 
-public class ArcaneWandRecipeWrapper extends BlankRecipeWrapper implements IShapedCraftingRecipeWrapper, IResearchableRecipeWrapper {
+public class ArcaneWandRecipeWrapper extends ThaumcraftCraftingRecipeWrapper implements IShapedCraftingRecipeWrapper {
 	private static final ArcaneWandRecipe recipe = new ArcaneWandRecipe();
 	private final List inputs;
 	private final List<ItemStack> outputs;
@@ -76,21 +74,13 @@ public class ArcaneWandRecipeWrapper extends BlankRecipeWrapper implements IShap
 
 	@Override
 	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-		PluginThaumcraft.helper.drawAspects(aspectList, recipeWidth, recipeHeight - 18);
+		drawAspects(aspectList, recipeWidth, recipeHeight - 18);
 	}
 
 	@Override
 	public boolean isResearched() {
-		if (!PluginThaumcraft.helper.isResearchRequired()) {
-			return true;
-		}
 		Minecraft minecraft = Minecraft.getMinecraft();
 		return minecraft.thePlayer != null && recipe.matches(crafting, minecraft.theWorld, minecraft.thePlayer);
-	}
-
-	@Override
-	public Object getRecipe() {
-		return this;
 	}
 
 	@Override

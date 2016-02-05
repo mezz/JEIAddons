@@ -1,10 +1,10 @@
 package mezz.jeiaddons.plugins.thaumcraft.infernal;
 
 import javax.annotation.Nonnull;
-import java.awt.Color;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -12,6 +12,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.ITooltipCallback;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
@@ -40,7 +41,7 @@ public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
 		slotDrawable = guiHelper.getSlotDrawable();
 
 		localizedName = StatCollector.translateToLocal("JEIAddons.category.thaumcraft.infernal.smelting");
-		bonusString = StatCollector.translateToLocal("JEIAddons.thaumcraft.infernal.bonus");
+		bonusString = StatCollector.translateToLocal("JEIAddons.thaumcraft.infernal.bonus") + " (0 - 3)";
 	}
 
 	@Override
@@ -52,11 +53,6 @@ public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
 	@Override
 	public void drawExtras(Minecraft minecraft) {
 		slotDrawable.draw(minecraft, bonusSlotX, bonusSlotY);
-		FontRenderer fontRenderer = minecraft.fontRendererObj;
-		int textY = bonusSlotY + 20;
-		fontRenderer.drawString(bonusString, bonusSlotX, textY, Color.gray.getRGB());
-		textY += fontRenderer.FONT_HEIGHT;
-		fontRenderer.drawString("(0 - 3)", bonusSlotX, textY, Color.gray.getRGB());
 	}
 
 	@Override
@@ -90,6 +86,15 @@ public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
 			guiItemStacks.setFromRecipe(inputSlot, recipe.getInputs());
 			guiItemStacks.set(outputSlotSmelt, recipe.getSmeltingOutput());
 			guiItemStacks.set(outputSlotBonus, recipe.getBonusOutput());
+
+			guiItemStacks.addTooltipCallback(new ITooltipCallback<ItemStack>() {
+				@Override
+				public void onTooltip(int slotIndex, boolean input, ItemStack ingredient, List<String> tooltip) {
+					if (slotIndex == outputSlotBonus) {
+						tooltip.add(bonusString);
+					}
+				}
+			});
 		} else {
 			Log.error("Unknown recipe wrapper type: {}", recipeWrapper);
 		}

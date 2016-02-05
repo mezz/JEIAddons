@@ -7,15 +7,14 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
-import mezz.jei.api.recipe.BlankRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
 import thaumcraft.api.crafting.CrucibleRecipe;
 
-public class CrucibleRecipeWrapper extends BlankRecipeWrapper implements IResearchableRecipeWrapper {
+public class CrucibleRecipeWrapper extends ThaumcraftRecipeWrapper {
 	private final CrucibleRecipe recipe;
 
 	public CrucibleRecipeWrapper(CrucibleRecipe recipe) {
+		super(70, 15);
 		this.recipe = recipe;
 	}
 
@@ -26,7 +25,7 @@ public class CrucibleRecipeWrapper extends BlankRecipeWrapper implements IResear
 
 	@Override
 	public boolean isResearched() {
-		return PluginThaumcraft.helper.isResearched(recipe.research);
+		return checkResearch(recipe.research);
 	}
 
 	@Override
@@ -35,13 +34,8 @@ public class CrucibleRecipeWrapper extends BlankRecipeWrapper implements IResear
 	}
 
 	@Override
-	public Object getRecipe() {
-		return this;
-	}
-
-	@Override
 	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-		PluginThaumcraft.helper.drawAspects(recipe.aspects, recipeWidth, recipeHeight - 18);
+		drawAspects(recipe.aspects, recipeWidth, recipeHeight - 18);
 	}
 
 	public ItemStack getRecipeOutput() {

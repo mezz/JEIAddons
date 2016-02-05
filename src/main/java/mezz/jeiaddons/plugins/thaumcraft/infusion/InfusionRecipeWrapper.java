@@ -11,15 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.IStackHelper;
 import mezz.jeiaddons.JEIAddonsPlugin;
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
 import mezz.jeiaddons.utils.Log;
 import thaumcraft.api.crafting.InfusionRecipe;
 
-public class InfusionRecipeWrapper extends BlankRecipeWrapper implements IResearchableRecipeWrapper {
+public class InfusionRecipeWrapper extends ThaumcraftRecipeWrapper {
 	private final InfusionRecipe recipe;
 	private final List<Object> inputs;
 	private final List<ItemStack> outputs;
@@ -28,6 +26,7 @@ public class InfusionRecipeWrapper extends BlankRecipeWrapper implements IResear
 	private final String instabilityString;
 
 	public InfusionRecipeWrapper(InfusionRecipe recipe) {
+		super(100, 34);
 		this.recipe = recipe;
 		IStackHelper stackHelper = JEIAddonsPlugin.jeiHelpers.getStackHelper();
 
@@ -94,20 +93,15 @@ public class InfusionRecipeWrapper extends BlankRecipeWrapper implements IResear
 	@Override
 	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
 		int textHeight = minecraft.fontRendererObj.FONT_HEIGHT;
-		PluginThaumcraft.helper.drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - textHeight - 18 - 4);
+		drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - textHeight - 18 - 4);
 
 		int xPos = (recipeWidth - minecraft.fontRendererObj.getStringWidth(instabilityString)) / 2;
 		minecraft.fontRendererObj.drawString(instabilityString, xPos, recipeHeight - textHeight, Color.gray.getRGB());
 	}
 
 	@Override
-	public Object getRecipe() {
-		return this;
-	}
-
-	@Override
 	public boolean isResearched() {
-		return PluginThaumcraft.helper.isResearched(recipe.getResearch());
+		return checkResearch(recipe.getResearch());
 	}
 
 	public List<ItemStack> getRecipeInput() {

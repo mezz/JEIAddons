@@ -11,11 +11,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.recipe.BlankRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
 
-public class InfernalSmeltingRecipeWrapper extends BlankRecipeWrapper implements IResearchableRecipeWrapper {
+public class InfernalSmeltingRecipeWrapper extends ThaumcraftRecipeWrapper {
 	@Nonnull
 	private final List<ItemStack> inputs;
 	@Nonnull
@@ -26,6 +24,7 @@ public class InfernalSmeltingRecipeWrapper extends BlankRecipeWrapper implements
 	private final String experienceString;
 
 	public InfernalSmeltingRecipeWrapper(@Nonnull List<ItemStack> inputs, @Nonnull ItemStack smeltingOutput, @Nonnull ItemStack bonusOutput, float experience) {
+		super(30, 18);
 		this.inputs = inputs;
 		this.smeltingOutput = smeltingOutput;
 
@@ -69,11 +68,6 @@ public class InfernalSmeltingRecipeWrapper extends BlankRecipeWrapper implements
 
 	@Override
 	public boolean isResearched() {
-		return PluginThaumcraft.helper.isResearched("INFERNALFURNACE");
-	}
-
-	@Override
-	public Object getRecipe() {
-		return this;
+		return checkResearch("INFERNALFURNACE");
 	}
 }

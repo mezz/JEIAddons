@@ -2,11 +2,11 @@ package mezz.jeiaddons.plugins.thaumcraft.infernal;
 
 import javax.annotation.Nonnull;
 
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.ResearchableRecipeHandler;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 
-public class InfernalSmeltingRecipeHandler extends ResearchableRecipeHandler<InfernalSmeltingRecipeWrapper> {
+public class InfernalSmeltingRecipeHandler extends ThaumcraftRecipeHandler<InfernalSmeltingRecipeWrapper> {
 	@Nonnull
 	@Override
 	public Class<InfernalSmeltingRecipeWrapper> getRecipeClass() {
@@ -21,7 +21,7 @@ public class InfernalSmeltingRecipeHandler extends ResearchableRecipeHandler<Inf
 
 	@Nonnull
 	@Override
-	public IResearchableRecipeWrapper getRecipeWrapper(@Nonnull InfernalSmeltingRecipeWrapper recipe) {
+	public IRecipeWrapper getRecipeWrapper(@Nonnull InfernalSmeltingRecipeWrapper recipe) {
 		return recipe;
 	}
 }

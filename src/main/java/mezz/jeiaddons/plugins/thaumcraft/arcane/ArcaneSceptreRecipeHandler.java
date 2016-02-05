@@ -2,11 +2,11 @@ package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
 import javax.annotation.Nonnull;
 
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.ResearchableRecipeHandler;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 
-public class ArcaneSceptreRecipeHandler extends ResearchableRecipeHandler<ArcaneSceptreRecipeWrapper> {
+public class ArcaneSceptreRecipeHandler extends ThaumcraftRecipeHandler<ArcaneSceptreRecipeWrapper> {
 	@Nonnull
 	@Override
 	public Class<ArcaneSceptreRecipeWrapper> getRecipeClass() {
@@ -21,7 +21,7 @@ public class ArcaneSceptreRecipeHandler extends ResearchableRecipeHandler<Arcane
 
 	@Nonnull
 	@Override
-	public IResearchableRecipeWrapper getRecipeWrapper(@Nonnull ArcaneSceptreRecipeWrapper recipe) {
+	public IRecipeWrapper getRecipeWrapper(@Nonnull ArcaneSceptreRecipeWrapper recipe) {
 		return recipe;
 	}
 }

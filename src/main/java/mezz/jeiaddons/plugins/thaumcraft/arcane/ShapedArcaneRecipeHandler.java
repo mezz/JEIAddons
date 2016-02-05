@@ -2,12 +2,12 @@ package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
 import javax.annotation.Nonnull;
 
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.ResearchableRecipeHandler;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
-public class ShapedArcaneRecipeHandler extends ResearchableRecipeHandler<ShapedArcaneRecipe> {
+public class ShapedArcaneRecipeHandler extends ThaumcraftRecipeHandler<ShapedArcaneRecipe> {
 	@Nonnull
 	@Override
 	public Class<ShapedArcaneRecipe> getRecipeClass() {
@@ -22,7 +22,7 @@ public class ShapedArcaneRecipeHandler extends ResearchableRecipeHandler<ShapedA
 
 	@Nonnull
 	@Override
-	public IResearchableRecipeWrapper getRecipeWrapper(@Nonnull ShapedArcaneRecipe recipe) {
+	public IRecipeWrapper getRecipeWrapper(@Nonnull ShapedArcaneRecipe recipe) {
 		return new ShapedArcaneRecipeWrapper(recipe);
 	}
 

@@ -12,16 +12,14 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fluids.FluidStack;
 
-import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.IResearchableRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.PluginThaumcraft;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftCraftingRecipeWrapper;
 import mezz.jeiaddons.utils.DummyInventoryCrafting;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.ArcaneSceptreRecipe;
 
-public class ArcaneSceptreRecipeWrapper extends BlankRecipeWrapper implements IShapedCraftingRecipeWrapper, IResearchableRecipeWrapper {
+public class ArcaneSceptreRecipeWrapper extends ThaumcraftCraftingRecipeWrapper implements IShapedCraftingRecipeWrapper {
 	private static final ArcaneSceptreRecipe recipe = new ArcaneSceptreRecipe();
 	private static final ItemStack primalCharm = new ItemStack(ItemsTC.primalCharm);
 	private final List inputs;
@@ -80,7 +78,7 @@ public class ArcaneSceptreRecipeWrapper extends BlankRecipeWrapper implements IS
 
 	@Override
 	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-		PluginThaumcraft.helper.drawAspects(aspectList, recipeWidth, recipeHeight - 18);
+		drawAspects(aspectList, recipeWidth, recipeHeight - 18);
 	}
 
 	@Override
@@ -90,16 +88,8 @@ public class ArcaneSceptreRecipeWrapper extends BlankRecipeWrapper implements IS
 
 	@Override
 	public boolean isResearched() {
-		if (!PluginThaumcraft.helper.isResearchRequired()) {
-			return true;
-		}
 		Minecraft minecraft = Minecraft.getMinecraft();
 		return minecraft.thePlayer != null && recipe.matches(crafting, minecraft.theWorld, minecraft.thePlayer);
-	}
-
-	@Override
-	public Object getRecipe() {
-		return this;
 	}
 
 	@Override
