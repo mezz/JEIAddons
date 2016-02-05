@@ -35,6 +35,7 @@ public class CrucibleRecipeWrapper extends ThaumcraftRecipeWrapper {
 
 	@Override
 	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 		drawAspects(recipe.aspects, recipeWidth, recipeHeight - 18, mouseX, mouseY);
 	}
 
