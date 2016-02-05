@@ -91,9 +91,9 @@ public class InfusionRecipeWrapper extends ThaumcraftRecipeWrapper {
 	}
 
 	@Override
-	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
+	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		int textHeight = minecraft.fontRendererObj.FONT_HEIGHT;
-		drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - textHeight - 18 - 4);
+		drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - textHeight - 18 - 4, mouseX, mouseY);
 
 		int xPos = (recipeWidth - minecraft.fontRendererObj.getStringWidth(instabilityString)) / 2;
 		minecraft.fontRendererObj.drawString(instabilityString, xPos, recipeHeight - textHeight, Color.gray.getRGB());

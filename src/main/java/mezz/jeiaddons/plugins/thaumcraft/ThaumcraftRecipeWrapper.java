@@ -2,11 +2,14 @@ package mezz.jeiaddons.plugins.thaumcraft;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -29,6 +32,9 @@ public abstract class ThaumcraftRecipeWrapper extends BlankRecipeWrapper {
 	private final int notResearchedX;
 	private final int notResearchedY;
 
+	@Nullable
+	private Aspect hoveredAspect;
+
 	protected ThaumcraftRecipeWrapper(int notResearchedX, int notResearchedY) {
 		this.notResearchedDrawable = JEIAddonsPlugin.jeiHelpers.getGuiHelper().createDrawable(icons, 0, 0, 16, 16);
 		this.notResearchedX = notResearchedX;
@@ -48,6 +54,11 @@ public abstract class ThaumcraftRecipeWrapper extends BlankRecipeWrapper {
 	public List<String> getTooltipStrings(int mouseX, int mouseY) {
 		if (!isResearched() && notResearchedHover.checkHover(mouseX, mouseY)) {
 			return notResearchedStrings;
+		} else if (hoveredAspect != null) {
+			return Arrays.asList(
+					hoveredAspect.getName(),
+					EnumChatFormatting.GRAY + hoveredAspect.getLocalizedDescription()
+			);
 		} else {
 			return null;
 		}
@@ -55,17 +66,23 @@ public abstract class ThaumcraftRecipeWrapper extends BlankRecipeWrapper {
 
 	protected abstract boolean isResearched();
 
-	protected void drawAspects(@Nullable AspectList aspectList, int recipeWidth, int y) {
+	protected void drawAspects(@Nullable AspectList aspectList, final int recipeWidth, final int y, final int mouseX, final int mouseY) {
 		if (aspectList == null || aspectList.size() == 0) {
 			return;
 		}
 
-		int aspectsWidth = 22 * aspectList.size();
-		int aspectXStart = (recipeWidth - aspectsWidth) / 2;
+		final int aspectsWidth = 22 * aspectList.size();
+		final int aspectXStart = (recipeWidth - aspectsWidth) / 2;
+
+		hoveredAspect = null;
 
 		int count = 0;
 		for (Aspect tag : aspectList.getAspectsSortedByAmount()) {
-			UtilsFX.drawTag(aspectXStart + 22 * count, y, tag, aspectList.getAmount(tag), 0, 0.0D, 771, 1.0F);
+			final int aspectX = aspectXStart + 22 * count;
+			UtilsFX.drawTag(aspectX, y, tag, aspectList.getAmount(tag), 0, 0.0D, 771, 1.0F);
+			if (mouseX >= aspectX && mouseX < (aspectX + 16) && mouseY >= y && mouseY < (y + 16)) {
+				hoveredAspect = tag;
+			}
 			count++;
 		}
 	}

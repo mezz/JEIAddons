@@ -25,7 +25,7 @@ public abstract class ArcaneRecipeWrapper<T extends IArcaneRecipe> extends Thaum
 	@Override
 	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
-		drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - 18);
+		drawAspects(recipe.getAspects(), recipeWidth, recipeHeight - 18, mouseX, mouseY);
 	}
 
 	@Override
