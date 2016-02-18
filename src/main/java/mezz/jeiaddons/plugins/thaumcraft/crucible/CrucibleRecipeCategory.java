@@ -1,22 +1,21 @@
 package mezz.jeiaddons.plugins.thaumcraft.crucible;
 
-import javax.annotation.Nonnull;
-
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.recipe.BlankRecipeCategory;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiItemStackGroup;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
+import javax.annotation.Nonnull;
 
-public class CrucibleRecipeCategory implements IRecipeCategory {
+public class CrucibleRecipeCategory extends BlankRecipeCategory {
 	private static final int catalystIndex = 0;
 	private static final int outputIndex = 1;
 
@@ -59,7 +58,7 @@ public class CrucibleRecipeCategory implements IRecipeCategory {
 	}
 
 	@Override
-	public void drawExtras(Minecraft minecraft) {
+	public void drawExtras(@Nonnull Minecraft minecraft) {
 		GlStateManager.enableBlend();
 		{
 			GlStateManager.pushMatrix();
@@ -72,11 +71,6 @@ public class CrucibleRecipeCategory implements IRecipeCategory {
 			arrow.draw(minecraft, 34, 4);
 		}
 		GlStateManager.disableBlend();
-	}
-
-	@Override
-	public void drawAnimations(Minecraft minecraft) {
-
 	}
 
 	@Override

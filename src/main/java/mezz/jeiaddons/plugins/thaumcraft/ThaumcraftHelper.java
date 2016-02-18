@@ -1,19 +1,13 @@
 package mezz.jeiaddons.plugins.thaumcraft;
 
 import com.google.common.collect.ImmutableList;
-
-import java.util.Set;
-
-import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
 import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.IItemRegistry;
+import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.INbtIgnoreList;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
-import mezz.jeiaddons.JEIAddonsPlugin;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneScepterRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.arcane.ArcaneSceptreRecipeHandler;
@@ -29,27 +23,33 @@ import mezz.jeiaddons.plugins.thaumcraft.infernal.InfernalSmeltingRecipeMaker;
 import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeCategory;
 import mezz.jeiaddons.plugins.thaumcraft.infusion.InfusionRecipeHandler;
 import mezz.jeiaddons.utils.ModUtil;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.wands.IWand;
 import thaumcraft.common.config.ConfigItems;
+
+import javax.annotation.Nonnull;
+import java.util.Set;
 
 public class ThaumcraftHelper {
 	private ThaumcraftHelper() {
 
 	}
 
-	public static void preInit() {
+	public static void register(@Nonnull IModRegistry registry) {
+		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
+
 		Set<String> aspectTags = Aspect.aspects.keySet();
 		String[] aspectTagsArray = aspectTags.toArray(new String[aspectTags.size()]);
-		INbtIgnoreList nbtIgnoreList = JEIAddonsPlugin.jeiHelpers.getNbtIgnoreList();
+		INbtIgnoreList nbtIgnoreList = jeiHelpers.getNbtIgnoreList();
 		nbtIgnoreList.ignoreNbtTagNames(ItemsTC.wand, aspectTagsArray);
-	}
 
-	public static void register(IModRegistry registry) {
-		addMissingNbtToWands();
+		addMissingNbtToWands(registry.getItemRegistry());
 
-		IGuiHelper guiHelper = JEIAddonsPlugin.jeiHelpers.getGuiHelper();
+		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
 		registry.addRecipeCategories(
@@ -60,15 +60,15 @@ public class ThaumcraftHelper {
 		);
 
 		registry.addRecipeHandlers(
-				new ShapedArcaneRecipeHandler(),
-				new ShapelessArcaneRecipeHandler(),
+				new ShapedArcaneRecipeHandler(jeiHelpers),
+				new ShapelessArcaneRecipeHandler(jeiHelpers),
 				new InfusionRecipeHandler(),
 				new CrucibleRecipeHandler(),
 				new InfernalSmeltingRecipeHandler()
 		);
 
-		registry.addRecipes(ThaumcraftRecipeMaker.getRecipes());
-		registry.addRecipes(InfernalSmeltingRecipeMaker.getRecipes());
+		registry.addRecipes(ThaumcraftRecipeMaker.getRecipes(jeiHelpers));
+		registry.addRecipes(InfernalSmeltingRecipeMaker.getRecipes(jeiHelpers));
 
 		Class<? extends Container> arcaneWorkbenchClass = ModUtil.getContainerClassForName("thaumcraft.common.container.ContainerArcaneWorkbench");
 		if (arcaneWorkbenchClass != null) {
@@ -78,12 +78,12 @@ public class ThaumcraftHelper {
 
 		if (ModUtil.classExists("thaumcraft.common.lib.crafting.ArcaneWandRecipe")) {
 			registry.addRecipeHandlers(new ArcaneWandRecipeHandler());
-			registry.addRecipes(ArcaneWandRecipeMaker.getRecipes());
+			registry.addRecipes(ArcaneWandRecipeMaker.getRecipes(jeiHelpers));
 		}
 
 		if (ModUtil.classExists("thaumcraft.common.lib.crafting.ArcaneSceptreRecipe")) {
 			registry.addRecipeHandlers(new ArcaneSceptreRecipeHandler());
-			registry.addRecipes(ArcaneScepterRecipeMaker.getRecipes());
+			registry.addRecipes(ArcaneScepterRecipeMaker.getRecipes(jeiHelpers));
 		}
 	}
 
@@ -91,8 +91,8 @@ public class ThaumcraftHelper {
 	 * Thaumcraft handles the case where the wand is missing nbt for cap or rod.
 	 * JEI needs this NBT set explicitly to look things up, so it is done here.
 	 */
-	private static void addMissingNbtToWands() {
-		ImmutableList<ItemStack> itemStacks = JEIAddonsPlugin.itemRegistry.getItemListForModId(PluginThaumcraft.modId);
+	private static void addMissingNbtToWands(@Nonnull IItemRegistry itemRegistry) {
+		ImmutableList<ItemStack> itemStacks = itemRegistry.getItemListForModId(PluginThaumcraft.modId);
 		for (ItemStack itemStack : itemStacks) {
 			Item item = itemStack.getItem();
 			if (item instanceof IWand) {

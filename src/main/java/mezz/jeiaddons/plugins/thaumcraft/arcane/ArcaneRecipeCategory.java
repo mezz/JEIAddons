@@ -1,25 +1,24 @@
 package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
-import javax.annotation.Nonnull;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.ICraftingGridHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.recipe.IRecipeCategory;
+import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.ICraftingRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import mezz.jeiaddons.utils.Log;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
-public class ArcaneRecipeCategory implements IRecipeCategory {
+import javax.annotation.Nonnull;
+
+public class ArcaneRecipeCategory extends BlankRecipeCategory {
 	private static final int craftOutputSlot = 0;
 	private static final int craftInputSlot1 = 2;
 
@@ -62,15 +61,10 @@ public class ArcaneRecipeCategory implements IRecipeCategory {
 	}
 
 	@Override
-	public void drawExtras(Minecraft minecraft) {
+	public void drawExtras(@Nonnull Minecraft minecraft) {
 		GlStateManager.enableBlend();
 		wand.draw(minecraft, 58, 0);
 		GlStateManager.disableBlend();
-	}
-
-	@Override
-	public void drawAnimations(Minecraft minecraft) {
-
 	}
 
 	@Override

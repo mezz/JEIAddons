@@ -1,10 +1,10 @@
 package mezz.jeiaddons.plugins.thaumcraft.crucible;
 
-import javax.annotation.Nonnull;
-
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeHandler;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
+
+import javax.annotation.Nonnull;
 
 public class CrucibleRecipeHandler extends ThaumcraftRecipeHandler<CrucibleRecipeWrapper> {
 	@Nonnull
@@ -27,6 +27,6 @@ public class CrucibleRecipeHandler extends ThaumcraftRecipeHandler<CrucibleRecip
 
 	@Override
 	public boolean isRecipeValid(@Nonnull CrucibleRecipeWrapper recipe) {
-		return super.isRecipeValid(recipe) && recipe.getOutputs() != null && recipe.getOutputs().size() > 0;
+		return super.isRecipeValid(recipe) && !recipe.getOutputs().isEmpty();
 	}
 }

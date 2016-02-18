@@ -1,34 +1,35 @@
 package mezz.jeiaddons.plugins.thaumcraft.infusion;
 
-import javax.annotation.Nonnull;
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.recipe.IStackHelper;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
+import mezz.jeiaddons.utils.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.StatCollector;
-
-import mezz.jei.api.recipe.IStackHelper;
-import mezz.jeiaddons.JEIAddonsPlugin;
-import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
-import mezz.jeiaddons.utils.Log;
 import thaumcraft.api.crafting.InfusionRecipe;
+
+import javax.annotation.Nonnull;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class InfusionRecipeWrapper extends ThaumcraftRecipeWrapper {
 	private final InfusionRecipe recipe;
+	@Nonnull
 	private final List<Object> inputs;
+	@Nonnull
 	private final List<ItemStack> outputs;
 	private final List<ItemStack> recipeInput;
 	private final List<List<ItemStack>> components;
 	private final String instabilityString;
 
-	public InfusionRecipeWrapper(InfusionRecipe recipe) {
-		super(100, 34);
+	public InfusionRecipeWrapper(@Nonnull IJeiHelpers jeiHelpers, @Nonnull InfusionRecipe recipe) {
+		super(jeiHelpers, 100, 34);
 		this.recipe = recipe;
-		IStackHelper stackHelper = JEIAddonsPlugin.jeiHelpers.getStackHelper();
+		IStackHelper stackHelper = jeiHelpers.getStackHelper();
 
 		this.recipeInput = stackHelper.toItemStackList(recipe.getRecipeInput());
 		this.inputs = new ArrayList<>();
@@ -81,11 +82,13 @@ public class InfusionRecipeWrapper extends ThaumcraftRecipeWrapper {
 	}
 
 	@Override
+	@Nonnull
 	public List getInputs() {
 		return inputs;
 	}
 
 	@Override
+	@Nonnull
 	public List<ItemStack> getOutputs() {
 		return outputs;
 	}

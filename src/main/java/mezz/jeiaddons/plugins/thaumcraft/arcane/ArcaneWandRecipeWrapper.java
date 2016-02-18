@@ -1,32 +1,32 @@
 package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
+import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftCraftingRecipeWrapper;
+import mezz.jeiaddons.utils.DummyInventoryCrafting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemStack;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.common.lib.crafting.ArcaneWandRecipe;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemStack;
-
-import net.minecraftforge.fluids.FluidStack;
-
-import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftCraftingRecipeWrapper;
-import mezz.jeiaddons.utils.DummyInventoryCrafting;
-import thaumcraft.api.aspects.AspectList;
-import thaumcraft.common.lib.crafting.ArcaneWandRecipe;
-
 public class ArcaneWandRecipeWrapper extends ThaumcraftCraftingRecipeWrapper implements IShapedCraftingRecipeWrapper {
 	private static final ArcaneWandRecipe recipe = new ArcaneWandRecipe();
+	@Nonnull
 	private final List inputs;
+	@Nonnull
 	private final List<ItemStack> outputs;
 	private final InventoryCrafting crafting;
 	private final AspectList aspectList;
 
 	@Nullable
-	public static ArcaneWandRecipeWrapper create(ItemStack wandRod, ItemStack wandCap) {
+	public static ArcaneWandRecipeWrapper create(@Nonnull IJeiHelpers jeiHelpers, @Nonnull ItemStack wandRod, @Nonnull ItemStack wandCap) {
 		InventoryCrafting crafting = new DummyInventoryCrafting(3, 3);
 		crafting.setInventorySlotContents(2, wandCap);
 		crafting.setInventorySlotContents(6, wandCap);
@@ -37,10 +37,11 @@ public class ArcaneWandRecipeWrapper extends ThaumcraftCraftingRecipeWrapper imp
 			return null;
 		}
 
-		return new ArcaneWandRecipeWrapper(wandRod, wandCap, crafting, wandOutput);
+		return new ArcaneWandRecipeWrapper(jeiHelpers, wandRod, wandCap, crafting, wandOutput);
 	}
 
-	private ArcaneWandRecipeWrapper(ItemStack wandRod, ItemStack wandCap, InventoryCrafting crafting, ItemStack wandOutput) {
+	private ArcaneWandRecipeWrapper(@Nonnull IJeiHelpers jeiHelpers, @Nonnull ItemStack wandRod, @Nonnull ItemStack wandCap, @Nonnull InventoryCrafting crafting, @Nonnull ItemStack wandOutput) {
+		super(jeiHelpers);
 		this.crafting = crafting;
 		this.aspectList = recipe.getAspects(this.crafting);
 
@@ -53,23 +54,15 @@ public class ArcaneWandRecipeWrapper extends ThaumcraftCraftingRecipeWrapper imp
 	}
 
 	@Override
+	@Nonnull
 	public List getInputs() {
 		return inputs;
 	}
 
 	@Override
+	@Nonnull
 	public List<ItemStack> getOutputs() {
 		return outputs;
-	}
-
-	@Override
-	public List<FluidStack> getFluidInputs() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<FluidStack> getFluidOutputs() {
-		return Collections.emptyList();
 	}
 
 	@Override

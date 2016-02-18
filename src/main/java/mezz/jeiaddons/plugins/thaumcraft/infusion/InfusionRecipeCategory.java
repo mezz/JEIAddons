@@ -1,8 +1,12 @@
 package mezz.jeiaddons.plugins.thaumcraft.infusion;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.recipe.BlankRecipeCategory;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
@@ -10,15 +14,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiItemStackGroup;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
+import javax.annotation.Nonnull;
+import java.util.List;
 
-public class InfusionRecipeCategory implements IRecipeCategory {
+public class InfusionRecipeCategory extends BlankRecipeCategory {
 	private static final int recipeOutputIndex = 0;
 	private static final int recipeInputIndex = 1;
 	private static final int recipeComponentStart = 2;
@@ -59,7 +58,7 @@ public class InfusionRecipeCategory implements IRecipeCategory {
 	}
 
 	@Override
-	public void drawExtras(Minecraft minecraft) {
+	public void drawExtras(@Nonnull Minecraft minecraft) {
 		GlStateManager.enableBlend();
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(-11, -4, 0);
@@ -67,11 +66,6 @@ public class InfusionRecipeCategory implements IRecipeCategory {
 		backgroundDesign.draw(minecraft, 0, 0);
 		GlStateManager.popMatrix();
 		GlStateManager.disableBlend();
-	}
-
-	@Override
-	public void drawAnimations(Minecraft minecraft) {
-
 	}
 
 	@Override

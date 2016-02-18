@@ -1,17 +1,17 @@
 package mezz.jeiaddons.plugins.thaumcraft.infernal;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
-
+import mezz.jei.api.IJeiHelpers;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class InfernalSmeltingRecipeWrapper extends ThaumcraftRecipeWrapper {
 	@Nonnull
@@ -23,8 +23,8 @@ public class InfernalSmeltingRecipeWrapper extends ThaumcraftRecipeWrapper {
 	@Nullable
 	private final String experienceString;
 
-	public InfernalSmeltingRecipeWrapper(@Nonnull List<ItemStack> inputs, @Nonnull ItemStack smeltingOutput, @Nonnull ItemStack bonusOutput, float experience) {
-		super(30, 18);
+	public InfernalSmeltingRecipeWrapper(@Nonnull IJeiHelpers jeiHelpers, @Nonnull List<ItemStack> inputs, @Nonnull ItemStack smeltingOutput, @Nonnull ItemStack bonusOutput, float experience) {
+		super(jeiHelpers, 30, 18);
 		this.inputs = inputs;
 		this.smeltingOutput = smeltingOutput;
 
@@ -37,13 +37,14 @@ public class InfernalSmeltingRecipeWrapper extends ThaumcraftRecipeWrapper {
 		}
 	}
 
-	@Nonnull
 	@Override
+	@Nonnull
 	public List<ItemStack> getInputs() {
 		return inputs;
 	}
 
 	@Override
+	@Nonnull
 	public List<ItemStack> getOutputs() {
 		return Arrays.asList(smeltingOutput, bonusOutput);
 	}

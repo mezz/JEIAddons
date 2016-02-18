@@ -1,16 +1,17 @@
 package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
+import mezz.jei.api.IJeiHelpers;
+import thaumcraft.api.wands.WandCap;
+import thaumcraft.api.wands.WandRod;
+
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import thaumcraft.api.wands.WandCap;
-import thaumcraft.api.wands.WandRod;
-
 public class ArcaneWandRecipeMaker {
 	@Nonnull
-	public static List<Object> getRecipes() {
+	public static List<Object> getRecipes(@Nonnull IJeiHelpers jeiHelpers) {
 		List<Object> recipes = new ArrayList<>();
 
 		WandCap ironCap = WandCap.caps.get("iron");
@@ -24,7 +25,7 @@ public class ArcaneWandRecipeMaker {
 				if (wandCap == ironCap && wandRod == woodRod) {
 					continue;
 				}
-				ArcaneWandRecipeWrapper recipe = ArcaneWandRecipeWrapper.create(wandRod.getItem(), wandCap.getItem());
+				ArcaneWandRecipeWrapper recipe = ArcaneWandRecipeWrapper.create(jeiHelpers, wandRod.getItem(), wandCap.getItem());
 				if (recipe != null) {
 					recipes.add(recipe);
 				}

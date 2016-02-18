@@ -1,24 +1,23 @@
 package mezz.jeiaddons.plugins.thaumcraft.infernal;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.ITooltipCallback;
-import mezz.jei.api.recipe.IRecipeCategory;
+import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeUids;
 import mezz.jeiaddons.utils.Log;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
-public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
+import javax.annotation.Nonnull;
+import java.util.List;
+
+public class InfernalSmeltingRecipeCategory extends BlankRecipeCategory {
 	private static final int inputSlot = 0;
 	private static final int outputSlotSmelt = 1;
 	private static final int outputSlotBonus = 2;
@@ -51,13 +50,8 @@ public class InfernalSmeltingRecipeCategory implements IRecipeCategory {
 	}
 
 	@Override
-	public void drawExtras(Minecraft minecraft) {
+	public void drawExtras(@Nonnull Minecraft minecraft) {
 		slotDrawable.draw(minecraft, bonusSlotX, bonusSlotY);
-	}
-
-	@Override
-	public void drawAnimations(Minecraft minecraft) {
-
 	}
 
 	@Nonnull

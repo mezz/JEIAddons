@@ -1,24 +1,25 @@
 package mezz.jeiaddons.plugins.thaumcraft.crucible;
 
+import mezz.jei.api.IJeiHelpers;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import thaumcraft.api.crafting.CrucibleRecipe;
+
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-
-import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftRecipeWrapper;
-import thaumcraft.api.crafting.CrucibleRecipe;
-
 public class CrucibleRecipeWrapper extends ThaumcraftRecipeWrapper {
 	private final CrucibleRecipe recipe;
 
-	public CrucibleRecipeWrapper(CrucibleRecipe recipe) {
-		super(70, 15);
+	public CrucibleRecipeWrapper(@Nonnull IJeiHelpers jeiHelpers, @Nonnull CrucibleRecipe recipe) {
+		super(jeiHelpers, 70, 15);
 		this.recipe = recipe;
 	}
 
 	@Override
+	@Nonnull
 	public List getInputs() {
 		return Collections.singletonList(recipe.catalyst);
 	}
@@ -29,6 +30,7 @@ public class CrucibleRecipeWrapper extends ThaumcraftRecipeWrapper {
 	}
 
 	@Override
+	@Nonnull
 	public List<ItemStack> getOutputs() {
 		return Collections.singletonList(recipe.getRecipeOutput());
 	}

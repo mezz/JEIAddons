@@ -1,23 +1,25 @@
 package mezz.jeiaddons.plugins.thaumcraft.arcane;
 
+import mezz.jei.api.IJeiHelpers;
+import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftCraftingRecipeWrapper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import thaumcraft.api.crafting.IArcaneRecipe;
+
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-
-import mezz.jeiaddons.plugins.thaumcraft.ThaumcraftCraftingRecipeWrapper;
-import thaumcraft.api.crafting.IArcaneRecipe;
-
 public abstract class ArcaneRecipeWrapper<T extends IArcaneRecipe> extends ThaumcraftCraftingRecipeWrapper {
 	protected final T recipe;
 
-	public ArcaneRecipeWrapper(T recipe) {
+	public ArcaneRecipeWrapper(@Nonnull IJeiHelpers jeiHelpers, @Nonnull T recipe) {
+		super(jeiHelpers);
 		this.recipe = recipe;
 	}
 
 	@Override
+	@Nonnull
 	public List<ItemStack> getOutputs() {
 		return Collections.singletonList(recipe.getRecipeOutput());
 	}

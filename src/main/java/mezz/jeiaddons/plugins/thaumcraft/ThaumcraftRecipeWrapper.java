@@ -1,27 +1,24 @@
 package mezz.jeiaddons.plugins.thaumcraft;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
+import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
 import net.minecraftforge.fml.client.config.HoverChecker;
-
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
-import mezz.jeiaddons.JEIAddonsPlugin;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchHelper;
 import thaumcraft.client.lib.UtilsFX;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class ThaumcraftRecipeWrapper extends BlankRecipeWrapper {
 	private static final ResourceLocation icons = new ResourceLocation("jeiaddons", "textures/gui/icons.png");
@@ -35,8 +32,8 @@ public abstract class ThaumcraftRecipeWrapper extends BlankRecipeWrapper {
 	@Nullable
 	private Aspect hoveredAspect;
 
-	protected ThaumcraftRecipeWrapper(int notResearchedX, int notResearchedY) {
-		this.notResearchedDrawable = JEIAddonsPlugin.jeiHelpers.getGuiHelper().createDrawable(icons, 0, 0, 16, 16);
+	protected ThaumcraftRecipeWrapper(@Nonnull IJeiHelpers jeiHelpers, int notResearchedX, int notResearchedY) {
+		this.notResearchedDrawable = jeiHelpers.getGuiHelper().createDrawable(icons, 0, 0, 16, 16);
 		this.notResearchedX = notResearchedX;
 		this.notResearchedY = notResearchedY;
 		this.notResearchedHover = new HoverChecker(notResearchedY, notResearchedY + 16, notResearchedX, notResearchedX + 16, 0);

@@ -1,14 +1,6 @@
 package mezz.jeiaddons.utils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.versioning.ArtifactVersion;
@@ -16,8 +8,7 @@ import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import net.minecraftforge.fml.common.versioning.VersionParser;
 import net.minecraftforge.fml.common.versioning.VersionRange;
 
-import mezz.jei.api.IItemRegistry;
-import mezz.jeiaddons.JEIAddonsPlugin;
+import javax.annotation.Nullable;
 
 public class ModUtil {
 	public static boolean isModLoaded(String modname) {
@@ -66,20 +57,5 @@ public class ModUtil {
 			Log.error("Couldn't find class for {}", className);
 			return null;
 		}
-	}
-
-	@Nonnull
-	public static List<ItemStack> getItemStacksFromMod(Iterable<ItemStack> itemStacks, String modId) {
-		IItemRegistry itemRegistry = JEIAddonsPlugin.itemRegistry;
-		List<ItemStack> itemStacksFromMod = new ArrayList<>();
-		for (ItemStack itemStack : itemStacks) {
-			if (itemStack != null) {
-				Item item = itemStack.getItem();
-				if (itemRegistry.getModNameForItem(item).equals(modId)) {
-					itemStacksFromMod.add(itemStack);
-				}
-			}
-		}
-		return itemStacksFromMod;
 	}
 }
